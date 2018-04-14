@@ -65,6 +65,7 @@
             this.ExchangePartnerInventory.ShowEquippment = false;
             this.ExchangePartnerInventory.Size = new System.Drawing.Size(240, 349);
             this.ExchangePartnerInventory.TabIndex = 4;
+            this.ExchangePartnerInventory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExchangePartnerInventory_CellClick);
             // 
             // TradeWindow
             // 

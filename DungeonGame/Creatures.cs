@@ -9,7 +9,7 @@ namespace MapObjects
 {
     public class Player : Creature
     {
-        public Player(DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(field, new Inventory.Inventory(100), Color.BlueViolet, hp, "Player", m)
+        public Player(DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(field, new Inventory.Inventory(100), Color.DarkRed, hp, "Player", m)
         {            
         }
 

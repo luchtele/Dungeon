@@ -23,31 +23,11 @@ namespace Inventory
             Random rnd = new Random();
 
             this.money = rnd.Next(10,1000);
-            //@todo rndm Items generieren
+            //@todo random (a+o für Timmi) Items generieren
             stuff = new List<Item>();
             equipment = new List<Item>();
 
         }
-        
-        
-        public void add(Item o)
-        {
-            stuff.Add(o);
-        }
-
-
-
-    /*    public void equip(string s)
-        {
-            foreach (Item o in stuff)
-            {
-                if (o.name.Equals(s))
-                {
-                    equipment.Add(o);
-                    stuff.Remove(o);
-                }
-            }
-        }*/
 
         public void equip(int i)
         {
@@ -71,30 +51,35 @@ namespace Inventory
           
         }
 
-        public Item sell(string s)
+        public bool give(int index, MapObjects.Interactable destination)
         {
-            foreach (Item o in stuff)
+            Item temp = stuff[index];
+            if (destination.GetType() == typeof(MapObjects.Merchant))
             {
-                if (o.name.Equals(s))
-                {
-                    money += o.value;
-                    stuff.Remove(o);
-                    return o;
-                }
+                destination.inventory.stuff.Add(temp);
+                money += temp.value;
+                stuff.Remove(temp);
+                return true;
             }
-            return null; ////////////////////////////////////////////////////////////////////////////////////////////////////////////könnte Probleme machen 
-        }
-       
-        public void buy(Item o)
-        {
-            if (money >= o.value)
+            else if (destination.GetType() == typeof(MapObjects.Player))
             {
-                money -= o.value;
-                add(o);
+                if(destination.inventory.money >= temp.value)
+                {
+                    destination.inventory.stuff.Add(temp);
+                    destination.inventory.money -= temp.value;
+                    stuff.Remove(temp);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                ///////////////////////////////////////////////////////////////////////////////message box fehlt noch!!!!!!!!!!!!
+                destination.inventory.stuff.Add(temp);
+                stuff.Remove(temp);
+                return true;
             }
         }
     }

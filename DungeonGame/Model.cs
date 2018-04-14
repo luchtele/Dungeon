@@ -81,6 +81,7 @@ namespace Dungeon
                     if (board[width-2,i].type == fieldtype.EMPTY)
                     {
                         exit = true;
+                        board[width-2,i].type = fieldtype.EXIT;
                     }
                 }
 
@@ -112,7 +113,7 @@ namespace Dungeon
                 newMoles.Clear();
                 deadMoles.Clear();
             }
-            board[0, height / 2].type = fieldtype.ENTRANCE;
+            board[1, height / 2].type = fieldtype.ENTRANCE;
 
         }
     }
