@@ -52,6 +52,7 @@
             this.PlayerInventory.ShowEquippment = true;
             this.PlayerInventory.Size = new System.Drawing.Size(240, 150);
             this.PlayerInventory.TabIndex = 1;
+            this.PlayerInventory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PlayerInventory_CellClick);
             // 
             // MainWindow
             // 

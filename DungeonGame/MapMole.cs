@@ -12,7 +12,7 @@ namespace Dungeon
         static Random rnd;
 
         public static int maxttl = 10;
-        public static int maxProb = 10;
+        public static int maxProb = 20;
         const int dirChangePrb = 25;
 
         public int direction;
@@ -42,25 +42,25 @@ namespace Dungeon
         {
             switch (dir)
             {
-                case 0:
+                case 0: //oben
                     if (board[position.posx, position.posy - 1].type == DrawEnvironment.fieldtype.WALL)
                     {
                         return true;
                     }
                     break;
-                case 1:
+                case 1: // rechts
                     if (board[position.posx + 1, position.posy].type == DrawEnvironment.fieldtype.WALL)
                     {
                         return true;
                     }
                     break;
-                case 2:
+                case 2: // unten
                     if (board[position.posx, position.posy + 1].type == DrawEnvironment.fieldtype.WALL)
                     {
                         return true;
                     }
                     break;
-                case 3:
+                case 3: // links
                     if (board[position.posx - 1, position.posy].type == DrawEnvironment.fieldtype.WALL)
                     {
                         return true;
@@ -143,7 +143,7 @@ namespace Dungeon
                 default:
                     throw new InvalidOperationException(" mole with invalid digging direction: " + direction);
             }
-            position.type = DrawEnvironment.fieldtype.EMPTY;
+            //position.type = DrawEnvironment.fieldtype.EMPTY;
 
             if (--ttl <= 0) // RIP mole
             {
@@ -151,6 +151,10 @@ namespace Dungeon
                 return null;
             }
             int diceroll = rnd.Next(1, 100);
+            if(diceroll <= dirChangePrb)
+            {
+                changeDir();
+            }
             if (diceroll <= moleSpawnProb)
             {
                 int spawn = rnd.Next(0, 50);

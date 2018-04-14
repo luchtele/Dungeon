@@ -12,6 +12,7 @@ namespace View
     {
         Inventory.Inventory inventory;
         bool showEq;
+        private BackgroundWorker backgroundWorker1;
         int colCount = 1;
 
         //Füge neue property hinzu
@@ -36,7 +37,6 @@ namespace View
         public InventoryTable()
         {
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
         }
 
         public void setInventory(Inventory.Inventory i)
@@ -79,7 +79,6 @@ namespace View
                     Rows[counter++].Cells[1].Value = i.name;
                 }
             }
-            
         }
     }
 }

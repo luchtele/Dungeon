@@ -31,7 +31,7 @@ namespace View
 
         private void button1_Click_1(object sender, EventArgs e) //EquipButton
         {
-            
+            m.mapgen();      
             foreach (DrawEnvironment.Field f in m.board)
             {
                 f.draw();
@@ -55,8 +55,6 @@ namespace View
             {
 
             }
-
-            m.mapgen();
         }
 
        

@@ -71,6 +71,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="InventoryTable.resx">
+      <DependentUpon>InventoryTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TradeWindow.resx">
       <DependentUpon>TradeWindow.cs</DependentUpon>
     </EmbeddedResource>

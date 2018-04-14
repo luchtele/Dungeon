@@ -49,7 +49,7 @@ namespace Dungeon
             }
 
             int maxMole = 100;
-            int minMole = 2;
+            int minMole = 4;
             MapMole.setBoard(board);
             List<MapMole> mapMoles = new List<MapMole>();
             List<MapMole> newMoles = new List<MapMole>();
@@ -57,7 +57,6 @@ namespace Dungeon
             mapMoles.Add(new MapMole(board[1, height / 2], 1, MapMole.maxttl, 10));
 
             bool exit = false;
-            
 
             while (!exit)
             {
@@ -79,17 +78,25 @@ namespace Dungeon
                 }
                 for(int i = 0; i < height; i++)
                 {
-                    if (board[width-1,i].type == fieldtype.EMPTY)
+                    if (board[width-2,i].type == fieldtype.EMPTY)
                     {
                         exit = true;
                     }
                 }
-                if(mapMoles.Count < minMole)
+
+                if (mapMoles.Count < minMole) //Notmoles
                 {
-                    foreach (MapMole m in mapMoles)
+                    Field maxField = board[0, 0];
+                    foreach (Field f in board)
                     {
-                        newMoles.Add(new MapMole(m.position, m.direction, MapMole.maxttl, MapMole.maxProb / 2));
+                        if ((f.type == fieldtype.EMPTY) && (f.posx > maxField.posx))
+                        {
+                            maxField = f;
+                        }
                     }
+                    newMoles.Add(new MapMole(maxField, 1, MapMole.maxttl, MapMole.maxProb / 2)); // läuft nach rechts
+                    newMoles.Add(new MapMole(maxField, 0, MapMole.maxttl, MapMole.maxProb / 2)); // läuft nach oben 
+                    newMoles.Add(new MapMole(maxField, 2, MapMole.maxttl, MapMole.maxProb / 2)); // läuft nach unten
                 }
 
                 foreach (MapMole m in deadMoles)
