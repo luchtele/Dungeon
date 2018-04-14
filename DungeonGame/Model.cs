@@ -22,7 +22,7 @@ namespace Dungeon
             this.width = width;
             this.height = height;
             mapgen();
-            player = new MapObjects.Player(100, board[1, height / 2], this);
+            player = new MapObjects.Player(board[1, height / 2],100, this);
             player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objectype.WEAPON, "Timmie das Schaefchen"));
             player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objectype.POTION, "Paulchen das Ferkel"));
             player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objectype.WEAPON, "Peter das Schaefchen"));
@@ -56,19 +56,20 @@ namespace Dungeon
             List<MapMole> deadMoles = new List<MapMole>();
             mapMoles.Add(new MapMole(board[1, height / 2], 1, MapMole.maxttl, 10));
 
-            int counter = 0;
-            while (mapMoles.Count() > 0 && counter++ < 100)
+            bool exit = false;
+            
+
+            while (!exit)
             {
                 foreach (MapMole m in mapMoles)
                 {
                     if (m.alive)
                     {
-                        MapMole manfred = m.dig();
-                        if (manfred != null)
+                        MapMole maybeNewMole = m.dig();
+                        if (maybeNewMole != null)
                         {
-                            newMoles.Add(manfred);
-                        }
-                        m.position.draw();
+                            newMoles.Add(maybeNewMole);
+                        }                                              
                     }
                     else
                     {
@@ -76,7 +77,13 @@ namespace Dungeon
                     }
 
                 }
-
+                for(int i = 0; i < height; i++)
+                {
+                    if (board[width-1,i].type == fieldtype.EMPTY)
+                    {
+                        exit = true;
+                    }
+                }
                 if(mapMoles.Count < minMole)
                 {
                     foreach (MapMole m in mapMoles)

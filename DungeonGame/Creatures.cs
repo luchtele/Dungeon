@@ -22,7 +22,7 @@ namespace MapObjects
             b.Dispose();
         }
 
-        public override void interact()
+        public override void interact(Interactable i)
         {
             throw new NotImplementedException();
         }
