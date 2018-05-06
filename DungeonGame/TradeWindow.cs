@@ -33,11 +33,11 @@ namespace View
 
         private void Buy_Click(object sender, EventArgs e)//@todo TEST!!!
         {
-            if (give)
+            if (give) // Verkaufen/Geben
             {
                 player.inventory.give(PlayerInventory.CurrentCell.RowIndex, exchangePartner);
             }
-            else
+            else //Kaufen @todo für Truhen kein Geld nötig
             {
                 if (!exchangePartner.inventory.give(ExchangePartnerInventory.CurrentCell.RowIndex, player))
                 {

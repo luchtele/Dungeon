@@ -32,7 +32,7 @@ namespace Dungeon
             alive = true;
         }
 
-        public static void setBoard(DrawEnvironment.Field [,] b)
+        public static void setBoard(DrawEnvironment.Field [,] b) // auf Klassen ebene für alle moles
         {
             board = b;
             rnd = new Random();

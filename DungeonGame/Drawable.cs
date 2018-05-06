@@ -22,7 +22,7 @@ namespace DrawEnvironment
 
     public class Field : Drawable
     {
-        private const int WH = 30;
+        private const int WH = 30; //width height
         public int posx, posy;
         public View.MainWindow form;
         public fieldtype type;
@@ -45,7 +45,7 @@ namespace DrawEnvironment
             p.Dispose();
             
         }
-        public void refresh()
+        public void refresh() // Kanten werden sonst übermalt
         {
             Graphics g = this.form.CreateGraphics();
             SolidBrush brush;

@@ -38,7 +38,7 @@ namespace View
             }
             try
             {
-                m.player.draw();//nachher raus!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //m.player.draw();//nachher raus!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                 if (equip)
                 {

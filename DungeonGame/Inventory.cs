@@ -23,7 +23,7 @@ namespace Inventory
             Random rnd = new Random();
 
             this.money = rnd.Next(10,1000);
-            //@todo random (a+o für Timmi) Items generieren
+            //@todo random Items generieren
             stuff = new List<Item>();
             equipment = new List<Item>();
 
@@ -61,7 +61,7 @@ namespace Inventory
                 stuff.Remove(temp);
                 return true;
             }
-            else if (destination.GetType() == typeof(MapObjects.Player))
+            else if (destination.GetType() == typeof(MapObjects.Player)) //@todo Truhe kein Geld
             {
                 if(destination.inventory.money >= temp.value)
                 {

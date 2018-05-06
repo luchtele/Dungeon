@@ -12,7 +12,6 @@ namespace View
     {
         Inventory.Inventory inventory;
         bool showEq;
-        private BackgroundWorker backgroundWorker1;
         int colCount = 1;
 
         //Füge neue property hinzu

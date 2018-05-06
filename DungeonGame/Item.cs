@@ -24,5 +24,9 @@ namespace Inventory
             this.type = t;
             this.name = name;
         }
+        public static bool operator ==(Item a, Item b) => a.actionvalue == b.actionvalue && a.value == b.value && a.type == b.type && a.name == b.name;
+
+        public static bool operator !=(Item a, Item b) => !(a == b);
     }
+    
 }

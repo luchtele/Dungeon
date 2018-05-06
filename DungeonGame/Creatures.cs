@@ -47,7 +47,7 @@ namespace MapObjects
         {
             if(p.GetType() == typeof(Player))
             {
-                new View.TradeWindow((Player)p, this).Show(); //typecast weil system == doof
+                new View.TradeWindow((Player)p, this).Show(); //typecast weil system == doof tradewindow erwartet player
                 
             }
             else
