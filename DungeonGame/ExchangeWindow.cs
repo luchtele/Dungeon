@@ -14,13 +14,38 @@ namespace View
     {
         MapObjects.Player player;
         MapObjects.Interactable exchangePartner;
-
+        bool buy = false;
         public ExchangeWindow(MapObjects.Player player, MapObjects.Interactable interactable)
         {
             InitializeComponent();
             this.player = player;
             this.exchangePartner = interactable;
-            //partyInventoryManager.Inventory = this.player.inventory;
+            inventoryManager.Inventory = player.inventory;
+            exchangePartnerList.DataSource = exchangePartner.inventory.stuff;
+            exchangePartnerList.DisplayMember = "Name";
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void buyButton_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void inventoryManager_Click(object sender, EventArgs e)
+        {
+            buy = false;
+            buyButton.Text = "sell";
+        }
+
+        private void exchangePartnerList_Click(object sender, EventArgs e)
+        {
+            buy = true;
+            buyButton.Text = "buy";
+        }
+
     }
 }

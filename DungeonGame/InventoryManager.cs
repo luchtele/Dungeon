@@ -14,6 +14,7 @@ namespace View
         public InventoryManager()
         {
             InitializeComponent();
+            stuffListBox.Click += stuffListClick; // Handle Methode der Listbox delegate -> Platzhalter für viele Funktionen
         }
 
         public Inventory.Inventory Inventory
@@ -28,6 +29,7 @@ namespace View
                     stuffListBox.DisplayMember = "Name";
                     equippmentListBox.DataSource = inventory.equipment;
                     equippmentListBox.DisplayMember = "Name";
+                    moneyBox.Text = Convert.ToString(inventory.Money);
                 }
             }
         }
@@ -65,6 +67,11 @@ namespace View
         {
             equip = false;
             equipButton.Text = "unequip";
+        }
+
+        private void stuffListClick(object sender, EventArgs e) 
+        {
+            this.InvokeOnClick(this, EventArgs.Empty); // lässt OnCLick Event feuern vom Inventorymanager
         }
     }
 }

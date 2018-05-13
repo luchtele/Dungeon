@@ -29,7 +29,7 @@ namespace MapObjects
     }
 
 
-    class Merchant : Creature
+    public class Merchant : Creature
     {
         public Merchant(ref DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(ref field, new Inventory.Inventory(), Color.DarkOliveGreen, hp, "Merchant", m)
         {

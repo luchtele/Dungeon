@@ -14,6 +14,7 @@ namespace Dungeon
         public int Width { get; set; }
         public int Height { get; set; }
         public MapObjects.Player player;
+        public MapObjects.Merchant merchant;
 
         public Model(System.Windows.Forms.Panel canvas, int width, int height)
         {
@@ -28,6 +29,9 @@ namespace Dungeon
             player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.POTION, "Paulchen das Ferkel"));
             player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.WEAPON, "Peter das Schaefchen"));
             player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.ARMOR, "Eduard das Ferkel"));
+            merchant = new MapObjects.Merchant(ref board[1, height / 2], 100, this);
+            merchant.inventory.stuff.Add(new Inventory.Item(5, 20, Inventory.objecttype.POTION, "Tränkl"));
+            merchant.inventory.stuff.Add(new Inventory.Item(15, 20, Inventory.objecttype.WEAPON, "Waffe"));
         }
 
         public void drawMap()

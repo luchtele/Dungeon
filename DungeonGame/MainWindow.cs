@@ -13,6 +13,7 @@ namespace View
             inventoryManager.Inventory = m.player.inventory;
             DrawEnvironment.Field.adaptSize(m.Width, m.Height, this.canvas);
             lastWindowState = WindowState;
+            new ExchangeWindow(m.player, m.merchant).Show();
         }
 
         private void MainWindow2_Load(object sender, EventArgs e)
