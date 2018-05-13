@@ -10,9 +10,10 @@ namespace View
 {
     class InventoryTable : DataGridView
     {
-        Inventory.Inventory inventory;
+        private Inventory.Inventory inventory;
         bool showEq;
         int colCount = 1;
+        BindingSource stuffSource = new BindingSource();
 
         //Füge neue property hinzu
         [Description("Gibt an, ob das Equippment des Inventars angezeigt werden soll"), Category("Inventareinstellungen")]
@@ -33,9 +34,21 @@ namespace View
             }
         }
 
+        public Inventory.Inventory Inventory
+        {
+            get { return inventory; }
+            set
+            {
+                inventory = value;
+                stuffSource = new BindingSource(new BindingList<Inventory.Item>(inventory.stuff), null);
+                this.DataSource = stuffSource;
+            }
+        }
+
         public InventoryTable()
         {
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            
         }
 
         public void setInventory(Inventory.Inventory i)
@@ -67,7 +80,7 @@ namespace View
             
             foreach (Inventory.Item i in inventory.stuff)
             {
-                Rows[counter++].Cells[0].Value = i.name;
+                Rows[counter++].Cells[0].Value = i.Name;
             }
 
             if (showEq)
@@ -75,7 +88,7 @@ namespace View
                 counter = 0;
                 foreach (Inventory.Item i in inventory.equipment)
                 {
-                    Rows[counter++].Cells[1].Value = i.name;
+                    Rows[counter++].Cells[1].Value = i.Name;
                 }
             }
         }

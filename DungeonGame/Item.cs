@@ -1,32 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Inventory
+﻿namespace Inventory
 {
-    public enum objectype
-        {
-            WEAPON, ARMOR, POTION
-        }
+    public enum objecttype
+    {
+        WEAPON, ARMOR, POTION
+    }
+
+    public enum comparison
+    {
+        BETTER, WORSE, UNCOMPARABLE
+    }
+
     public class Item
     {
         public int value;
         public int actionvalue;
-        public string name;
-        public objectype type;
+        public string Name { get; set; }
+        public objecttype type;
         
-        public Item(int value, int actionvalue, objectype t, string name)
+        public Item(int value, int actionvalue, objecttype t, string name)
         {
             this.actionvalue = actionvalue;
             this.value = value;
             this.type = t;
-            this.name = name;
+            this.Name = name;
         }
-        public static bool operator ==(Item a, Item b) => a.actionvalue == b.actionvalue && a.value == b.value && a.type == b.type && a.name == b.name;
 
-        public static bool operator !=(Item a, Item b) => !(a == b);
+        public comparison compareTo(Item i)
+        {
+            if (type != i.type)
+                return comparison.UNCOMPARABLE;
+            if (actionvalue <= i.actionvalue)
+                return comparison.WORSE;
+            return comparison.BETTER;
+        }
     }
     
 }

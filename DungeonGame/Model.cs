@@ -9,39 +9,56 @@ namespace Dungeon
 {
     public class Model
     {
-        View.MainWindow form;
+        System.Windows.Forms.Panel canvas;
         public Field [,] board;
-        int width;
-        int height;
+        public int Width { get; set; }
+        public int Height { get; set; }
         public MapObjects.Player player;
 
-        public Model(View.MainWindow f, int width, int height)
+        public Model(System.Windows.Forms.Panel canvas, int width, int height)
         {
-            this.form = f;
+            this.canvas = canvas;
             board = new Field[width, height];
-            this.width = width;
-            this.height = height;
+            this.Width = width;
+            this.Height = height;
+            Field.adaptSize(Width, Height, canvas);
             mapgen();
-            player = new MapObjects.Player(board[1, height / 2],100, this);
-            player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objectype.WEAPON, "Timmie das Schaefchen"));
-            player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objectype.POTION, "Paulchen das Ferkel"));
-            player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objectype.WEAPON, "Peter das Schaefchen"));
-            player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objectype.ARMOR, "Eduard das Ferkel"));
+            player = new MapObjects.Player(ref board[1, height / 2],100, this);
+            player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.WEAPON, "Timmie das Schaefchen"));
+            player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.POTION, "Paulchen das Ferkel"));
+            player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.WEAPON, "Peter das Schaefchen"));
+            player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.ARMOR, "Eduard das Ferkel"));
+        }
+
+        public void drawMap()
+        {
+            canvas.Refresh();
+            foreach (Field f in board)
+            {
+                f.draw();
+            }
+        }
+
+        public void redrawAll()
+        {
+            Field.adaptSize(Width, Height, canvas);
+            drawMap();
+            player.draw();//Todo: alle mapobjects zeichnen
         }
 
         public void mapgen()
         {
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < Width; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < Height; j++)
                 {
-                    if ((i == 0) || (i == width-1) || (j == 0) || (j == height-1))
+                    if ((i == 0) || (i == Width-1) || (j == 0) || (j == Height-1))
                     {
-                        board[i, j] = new Field(i, j, form, fieldtype.INDESTRUCTABLE);
+                        board[i, j] = new Field(i, j, canvas, fieldtype.INDESTRUCTABLE);
                     }
                     else
                     {
-                        board[i, j] = new Field(i, j, form, fieldtype.WALL);
+                        board[i, j] = new Field(i, j, canvas, fieldtype.WALL);
                     }
                     
                 }
@@ -54,7 +71,7 @@ namespace Dungeon
             List<MapMole> mapMoles = new List<MapMole>();
             List<MapMole> newMoles = new List<MapMole>();
             List<MapMole> deadMoles = new List<MapMole>();
-            mapMoles.Add(new MapMole(board[1, height / 2], 1, MapMole.maxttl, 10));
+            mapMoles.Add(new MapMole(board[1, Height / 2], 1, MapMole.maxttl, 10));
 
             bool exit = false;
 
@@ -76,12 +93,12 @@ namespace Dungeon
                     }
 
                 }
-                for(int i = 0; i < height; i++)
+                for(int i = 0; i < Height; i++)
                 {
-                    if (board[width-2,i].type == fieldtype.EMPTY)
+                    if (board[Width-2,i].type == fieldtype.EMPTY)
                     {
                         exit = true;
-                        board[width-2,i].type = fieldtype.EXIT;
+                        board[Width-2,i].type = fieldtype.EXIT;
                     }
                 }
 
@@ -113,7 +130,7 @@ namespace Dungeon
                 newMoles.Clear();
                 deadMoles.Clear();
             }
-            board[1, height / 2].type = fieldtype.ENTRANCE;
+            board[1, Height / 2].type = fieldtype.ENTRANCE;
 
         }
     }

@@ -22,22 +22,23 @@ namespace DrawEnvironment
 
     public class Field : Drawable
     {
-        private const int WH = 30; //width height
+        private static int WH = 30; //width height
         public int posx, posy;
-        public View.MainWindow form;
+        public System.Windows.Forms.Panel canvas;
         public fieldtype type;
         public Rectangle rect;
-        public Field(int x, int y, View.MainWindow form, fieldtype type)
+        public Field(int x, int y, System.Windows.Forms.Panel canvas, fieldtype type)
         {
             this.posx = x;
             this.posy = y;
-            this.form = form;
+            this.canvas = canvas;
             this.type = type;
             rect = new Rectangle(this.posx * (WH - 1), this.posy * (WH - 1), WH, WH);
         }
         public void draw()
         {
-            Graphics g = this.form.CreateGraphics();
+            rect = new Rectangle(this.posx * (WH - 1), this.posy * (WH - 1), WH, WH);
+            Graphics g = this.canvas.CreateGraphics();
             Pen p = new Pen(Color.Black, 1);
             refresh();        
             g.DrawRectangle(p, rect);
@@ -47,7 +48,7 @@ namespace DrawEnvironment
         }
         public void refresh() // Kanten werden sonst übermalt
         {
-            Graphics g = this.form.CreateGraphics();
+            Graphics g = this.canvas.CreateGraphics();
             SolidBrush brush;
            
             if (this.type == fieldtype.EMPTY)
@@ -77,5 +78,9 @@ namespace DrawEnvironment
             brush.Dispose();
         }
         
+        public static void adaptSize(int boardWidth, int boardHeight, System.Windows.Forms.Panel canvas)
+        {
+            WH = Math.Min(canvas.Width / boardWidth, canvas.Height / boardHeight);
+        }
     }
 }

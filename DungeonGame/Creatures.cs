@@ -9,15 +9,15 @@ namespace MapObjects
 {
     public class Player : Creature
     {
-        public Player(DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(field, new Inventory.Inventory(100), Color.DarkRed, hp, "Player", m)
+        public Player(ref DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(ref field, new Inventory.Inventory(100), Color.DarkRed, hp, "Player", m)
         {            
         }
 
         public override void draw()
         {
-            Graphics g = position.form.CreateGraphics();
+            Graphics g = position.canvas.CreateGraphics();
             SolidBrush b = new SolidBrush(color);
-            g.FillEllipse(b, position.rect);
+            g.FillEllipse(b, position.rect); 
             g.Dispose();
             b.Dispose();
         }
@@ -31,12 +31,12 @@ namespace MapObjects
 
     class Merchant : Creature
     {
-        public Merchant(DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(field, new Inventory.Inventory(), Color.DarkOliveGreen, hp, "Merchant", m)
+        public Merchant(ref DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(ref field, new Inventory.Inventory(), Color.DarkOliveGreen, hp, "Merchant", m)
         {
         }
         public override void draw()
         {
-            Graphics g = position.form.CreateGraphics();
+            Graphics g = position.canvas.CreateGraphics();
             SolidBrush b = new SolidBrush(color);
             g.FillEllipse(b, position.rect);
             g.Dispose();

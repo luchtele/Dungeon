@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace View
@@ -13,54 +6,23 @@ namespace View
     public partial class MainWindow : Form
     {
         Dungeon.Model m;
-        private bool equip = false;
-        
+        FormWindowState lastWindowState; //Dirty hack!!! stolen from: https://stackoverflow.com/questions/1295999/event-when-a-window-gets-maximized-un-maximized
         public MainWindow()
-        {
-            InitializeComponent();
-            m = new Dungeon.Model(this, 30, 20);
-            PlayerInventory.setInventory(m.player.inventory);
-            PlayerInventory.reload();
-            new TradeWindow(m.player, m.player).Show();
+{           InitializeComponent();
+            m = new Dungeon.Model(this.canvas, 30, 20);
+            inventoryManager.Inventory = m.player.inventory;
+            DrawEnvironment.Field.adaptSize(m.Width, m.Height, this.canvas);
+            lastWindowState = WindowState;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainWindow2_Load(object sender, EventArgs e)
         {
             this.KeyPreview = true;
         }
 
-        private void button1_Click_1(object sender, EventArgs e) //EquipButton
+        private void MainWindow2_KeyPress(object sender, KeyPressEventArgs e)
         {
-            m.mapgen();      
-            foreach (DrawEnvironment.Field f in m.board)
-            {
-                f.draw();
-            }
-            try
-            {
-                //m.player.draw();//nachher raus!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-                if (equip)
-                {
-                    m.player.inventory.equip(PlayerInventory.CurrentCell.RowIndex);
-                }
-                else
-                {
-                    m.player.inventory.unequip(PlayerInventory.CurrentCell.RowIndex);
-                }
-
-                PlayerInventory.reload();
-            }
-            catch(ArgumentOutOfRangeException ex)
-            {
-
-            }
-        }
-
-       
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if(e.KeyChar == 'w' || e.KeyChar == 'd' || e.KeyChar == 's' || e.KeyChar == 'a')
+            if (e.KeyChar == 'w' || e.KeyChar == 'd' || e.KeyChar == 's' || e.KeyChar == 'a')
             {
                 m.player.position.draw();
             }
@@ -82,18 +44,27 @@ namespace View
             m.player.draw();
         }
 
-        private void PlayerInventory_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void canvas_DoubleClick(object sender, EventArgs e)
         {
-            if(e.ColumnIndex == 0)
+            m.mapgen();
+            m.redrawAll();
+        }
+
+        private void MainWindow_Resize(object sender, EventArgs e)
+        {
+            if (WindowState != lastWindowState) 
             {
-                equip = true;
-                EquipButton.Text = "equip";
+                lastWindowState = WindowState;
+                if(WindowState == FormWindowState.Maximized || WindowState == FormWindowState.Normal)
+                {
+                    m.redrawAll();
+                }
             }
-            else
-            {
-                equip = false;
-                EquipButton.Text = "unequip";
-            }
+        }
+
+        private void MainWindow_ResizeEnd(object sender, EventArgs e)
+        {
+            m.redrawAll();
         }
     }
 }

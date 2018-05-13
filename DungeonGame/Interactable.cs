@@ -16,7 +16,7 @@ namespace MapObjects
         public abstract void interact(Interactable i);
         public abstract void draw();
 
-        public Interactable(DrawEnvironment.Field field, Inventory.Inventory inventory, Color color)
+        public Interactable(ref DrawEnvironment.Field field, Inventory.Inventory inventory, Color color)
         {
             this.position = field;
             this.inventory = inventory;
@@ -30,12 +30,11 @@ namespace MapObjects
         protected int hp; // int level.....        
         protected Dungeon.Model model;
 
-        public Creature(DrawEnvironment.Field field, Inventory.Inventory inventory, Color color, int hp, string name, Dungeon.Model m): base(field, inventory, color)
+        public Creature(ref DrawEnvironment.Field field, Inventory.Inventory inventory, Color color, int hp, string name, Dungeon.Model m): base(ref field, inventory, color)
         {
             this.hp = hp;
             this.name = name;
             this.model = m;
-
         }
 
         public void move(int direction)
