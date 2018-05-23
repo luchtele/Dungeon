@@ -23,6 +23,11 @@ namespace View
             inventoryManager.Inventory = player.inventory;
             exchangePartnerList.DataSource = exchangePartner.inventory.stuff;
             exchangePartnerList.DisplayMember = "Name";
+            compareTable.Rows.Add(2);
+            compareTable.Rows[0].Cells[0].Value = "Name";
+            compareTable.Rows[1].Cells[0].Value = "Value";
+            compareTable.Rows[2].Cells[0].Value = "Actionvalue";
+            compareTable.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -34,22 +39,28 @@ namespace View
         {
             if (buy)
             {
-                if (!exchangePartner.inventory.give(exchangePartnerList.SelectedIndex, player))
+                try
                 {
-                    MessageBox.Show("Too expensive ~ sucker!");
+                    if (!exchangePartner.inventory.give((Inventory.Item)exchangePartnerList.SelectedItem, player))
+                    {
+                        MessageBox.Show("Too expensive ~ sucker!");
+                    }
+                }
+                catch(ArgumentOutOfRangeException ex)
+                {
+                    MessageBox.Show("Nothing to buy");
                 }
             }
             else
             {
                 try
                 {
-                    player.inventory.give(inventoryManager.index, exchangePartner);
+                    player.inventory.give(inventoryManager.item, exchangePartner);
                 }
                 catch(ArgumentOutOfRangeException ex)
                 {
                     MessageBox.Show("Nothing to sell");
                 }
-               
             }
         }
 
@@ -57,12 +68,24 @@ namespace View
         {
             buy = false;
             buyButton.Text = "sell";
+           Inventory.Item i = (Inventory.Item)inventoryManager.StuffListBox.SelectedItem;
+            setCompareTable(2, i);
         }
 
         private void exchangePartnerList_Click(object sender, EventArgs e)
         {
             buy = true;
             buyButton.Text = "buy";
+            Inventory.Item i = (Inventory.Item)exchangePartnerList.SelectedItem;
+            setCompareTable(1, i);
+            Inventory.objecttype type = i.type;
+        }
+
+        private void setCompareTable(int i, Inventory.Item item)
+        {
+            compareTable.Rows[0].Cells[i].Value = item.Name;
+            compareTable.Rows[1].Cells[i].Value = Convert.ToString(item.value);
+            compareTable.Rows[2].Cells[i].Value = Convert.ToString(item.actionvalue);
         }
 
     }

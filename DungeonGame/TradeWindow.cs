@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace View
 {
-    public partial class TradeWindow : Form
+    public partial class TradeWindow : Form //ALTE VERSION IRGENDWANN LÖSCHEN!!!!!!!!!!!!!!!
     {
         MapObjects.Player player;
         MapObjects.Interactable exchangePartner;
@@ -31,23 +31,23 @@ namespace View
             PlayerInventory.reload();
         }
 
-        private void Buy_Click(object sender, EventArgs e)//@todo TEST!!!
+         private void Buy_Click(object sender, EventArgs e)//@todo TEST!!!
         {
             if (give) // Verkaufen/Geben
             {
-                player.inventory.give(PlayerInventory.CurrentCell.RowIndex, exchangePartner);
+               // player.inventory.give(PlayerInventory.CurrentCell.RowIndex, exchangePartner);
             }
             else //Kaufen @todo für Truhen kein Geld nötig
             {
-                if (!exchangePartner.inventory.give(ExchangePartnerInventory.CurrentCell.RowIndex, player))
+                /*if (!exchangePartner.inventory.give(ExchangePartnerInventory.CurrentCell.RowIndex, player))
                 {
                     MessageBox.Show("Too expensive ~ sucker!");
-                }
+                }*/
             }
             PlayerInventory.reload();
             ExchangePartnerInventory.reload();
         }
-
+        
         private void TradeWindow_Load(object sender, EventArgs e)
         {
 

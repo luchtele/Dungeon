@@ -145,7 +145,7 @@ namespace Inventory
                 return true;
             }
         }
-
+/*
         public bool give(int index, MapObjects.Interactable destination) // @todo kein index sondern objekt
         {
             Item temp = stuff[index];
@@ -176,6 +176,6 @@ namespace Inventory
                 stuff.Remove(temp);
                 return true;
             }
-        }
+        }*/
     }
 }
