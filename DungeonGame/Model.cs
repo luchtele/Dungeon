@@ -25,13 +25,12 @@ namespace Dungeon
             Field.adaptSize(Width, Height, canvas);
             mapgen();
             player = new MapObjects.Player(ref board[1, height / 2],100, this);
-            player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.WEAPON, "Timmie das Schaefchen"));
+            player.inventory.equipment.Add(new Inventory.Item(100, 20, Inventory.objecttype.SWORD, "Timmie das Schaefchen"));
             player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.POTION, "Paulchen das Ferkel"));
-            player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.WEAPON, "Peter das Schaefchen"));
+            player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.SWORD, "Peter das Schaefchen"));
             player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.ARMOR, "Eduard das Ferkel"));
             merchant = new MapObjects.Merchant(ref board[1, height / 2], 100, this);
-            merchant.inventory.stuff.Add(new Inventory.Item(5, 20, Inventory.objecttype.POTION, "Tränkl"));
-            merchant.inventory.stuff.Add(new Inventory.Item(15, 20, Inventory.objecttype.WEAPON, "Waffe"));
+            merchant.inventory.stuff.Add(new Inventory.Item(150, 120, Inventory.objecttype.ARMOR, "Schwert"));
         }
 
         public void drawMap()

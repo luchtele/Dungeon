@@ -10,11 +10,12 @@ namespace View
     public partial class InventoryManager : UserControl
     {
         private bool equip = true;
+        public int index;
         private Inventory.Inventory inventory;
         public InventoryManager()
         {
             InitializeComponent();
-            stuffListBox.Click += stuffListClick; // Handle Methode der Listbox delegate -> Platzhalter für viele Funktionen
+            stuffListBox.Click += stuffListClick; // Handle Methode der Listbox delegate -> Platzhalter für viele Funktionena
         }
 
         public Inventory.Inventory Inventory
@@ -30,6 +31,7 @@ namespace View
                     equippmentListBox.DataSource = inventory.equipment;
                     equippmentListBox.DisplayMember = "Name";
                     moneyBox.Text = Convert.ToString(inventory.Money);
+                    inventory.moneyChanged += moneyChange;
                 }
             }
         }
@@ -72,6 +74,11 @@ namespace View
         private void stuffListClick(object sender, EventArgs e) 
         {
             this.InvokeOnClick(this, EventArgs.Empty); // lässt OnCLick Event feuern vom Inventorymanager
+            index = stuffListBox.SelectedIndex;
+        }
+        private void moneyChange(object sender, EventArgs e)
+        {
+            moneyBox.Text = Convert.ToString(inventory.Money);
         }
     }
 }

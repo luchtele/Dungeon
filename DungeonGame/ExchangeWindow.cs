@@ -32,7 +32,25 @@ namespace View
 
         private void buyButton_Click(object sender, EventArgs e)
         {
-            
+            if (buy)
+            {
+                if (!exchangePartner.inventory.give(exchangePartnerList.SelectedIndex, player))
+                {
+                    MessageBox.Show("Too expensive ~ sucker!");
+                }
+            }
+            else
+            {
+                try
+                {
+                    player.inventory.give(inventoryManager.index, exchangePartner);
+                }
+                catch(ArgumentOutOfRangeException ex)
+                {
+                    MessageBox.Show("Nothing to sell");
+                }
+               
+            }
         }
 
         private void inventoryManager_Click(object sender, EventArgs e)

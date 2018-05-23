@@ -9,13 +9,22 @@ namespace Inventory
 {
     public class Inventory
     {
-        public int Money { get; set; }
+        private int money;
+        public int Money {
+            get { return money; }
+            set
+            {
+                this.money = value;
+                OnMoneyChanged(EventArgs.Empty);
+            }
+        }
         public BindingList<Item> stuff;
         public BindingList<Item> equipment;
-
+        private int length = 6;
+        public event EventHandler moneyChanged;
         public Inventory(int m)
         {
-            this.Money = m;
+            this.money = m;
             stuff = new BindingList<Item>();
             equipment = new BindingList<Item>();
         }
@@ -23,11 +32,24 @@ namespace Inventory
         {
             Random rnd = new Random();
 
-            this.Money = rnd.Next(10,1000);
-            //@todo random Items generieren
+            this.money = rnd.Next(10,1000);
             stuff = new BindingList<Item>();
             equipment = new BindingList<Item>();
-
+            Item m;
+            for(int i = 0; i <= length; i++)
+            {
+                int o = rnd.Next(0, 4);
+                m = new Item(o);
+                stuff.Add(m);
+            }
+        }
+        protected virtual void OnMoneyChanged(EventArgs e)
+        {
+            EventHandler handler = moneyChanged;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
 
         public bool equip(Item i)
