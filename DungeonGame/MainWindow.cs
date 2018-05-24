@@ -13,7 +13,7 @@ namespace View
             inventoryManager.Inventory = m.player.inventory;
             DrawEnvironment.Field.adaptSize(m.Width, m.Height, this.canvas);
             lastWindowState = WindowState;
-            new ExchangeWindow(m.player, m.merchant).Show();
+            //new ExchangeWindow(m.player, m.merchant).Show();
         }
 
         private void MainWindow2_Load(object sender, EventArgs e)
@@ -23,7 +23,7 @@ namespace View
 
         private void MainWindow2_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == 'w' || e.KeyChar == 'd' || e.KeyChar == 's' || e.KeyChar == 'a')
+            if (e.KeyChar == 'w' || e.KeyChar == 'd' || e.KeyChar == 's' || e.KeyChar == 'a' || e.KeyChar == 'e')
             {
                 m.player.position.draw();
             }
@@ -40,6 +40,12 @@ namespace View
                     break;
                 case 'a':
                     m.player.move(3);
+                    break;
+                case 'e':
+                    if(m.player.position == m.merchant.position)
+                    {
+                        m.merchant.interact(m.player);
+                    }
                     break;
             }
             m.player.draw();

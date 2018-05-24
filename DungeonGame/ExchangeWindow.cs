@@ -68,8 +68,9 @@ namespace View
         {
             buy = false;
             buyButton.Text = "sell";
-           Inventory.Item i = (Inventory.Item)inventoryManager.StuffListBox.SelectedItem;
-            setCompareTable(2, i);
+            Inventory.Item i = (Inventory.Item)inventoryManager.StuffListBox.SelectedItem;
+            setCompareTable(1, i);
+            findCompareable(i, player.inventory.equipment);
         }
 
         private void exchangePartnerList_Click(object sender, EventArgs e)
@@ -78,7 +79,7 @@ namespace View
             buyButton.Text = "buy";
             Inventory.Item i = (Inventory.Item)exchangePartnerList.SelectedItem;
             setCompareTable(1, i);
-            Inventory.objecttype type = i.type;
+            findCompareable(i, player.inventory.equipment);
         }
 
         private void setCompareTable(int i, Inventory.Item item)
@@ -86,6 +87,16 @@ namespace View
             compareTable.Rows[0].Cells[i].Value = item.Name;
             compareTable.Rows[1].Cells[i].Value = Convert.ToString(item.value);
             compareTable.Rows[2].Cells[i].Value = Convert.ToString(item.actionvalue);
+        }
+        private void findCompareable(Inventory.Item item, BindingList<Inventory.Item> equippment)
+        {
+            foreach (Inventory.Item i in equippment)
+            {
+                if (item.type == i.type)
+                {
+                    setCompareTable(2, i);
+                }
+            }
         }
 
     }

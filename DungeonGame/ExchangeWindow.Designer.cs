@@ -135,14 +135,14 @@
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column2.HeaderText = "New Item";
+            this.Column2.HeaderText = "Item";
             this.Column2.Name = "Column2";
-            this.Column2.Width = 77;
+            this.Column2.Width = 52;
             // 
             // Column3
             // 
             this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column3.HeaderText = "Your Item";
+            this.Column3.HeaderText = "Equipped Item";
             this.Column3.Name = "Column3";
             // 
             // ExchangeWindow

@@ -47,8 +47,8 @@ namespace MapObjects
         {
             if(p.GetType() == typeof(Player))
             {
-                new View.TradeWindow((Player)p, this).Show(); //typecast weil system == doof tradewindow erwartet player
-                
+                //typecast weil system == doof tradewindow erwartet player
+                new View.ExchangeWindow((Player)p, this).Show();
             }
             else
             {
@@ -57,9 +57,31 @@ namespace MapObjects
             
         }
 
-        public void move()
+        public void move() //@todo unnötig?? stehender merchant?
         {
             move(Misc.AI.determineDirection());
+        }
+    }
+
+
+    public class Monster : Creature
+    {
+        public Monster(ref DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(ref field, new Inventory.Inventory(), Color.Crimson, hp, "Monster", m)
+        {
+
+        }
+        public override void draw()
+        {
+            Graphics g = position.canvas.CreateGraphics();
+            SolidBrush b = new SolidBrush(color);
+            g.FillEllipse(b, position.rect);
+            g.Dispose();
+            b.Dispose();
+        }
+
+        public override void interact(Interactable i)//@todo popup window für kampf
+        {
+            throw new NotImplementedException();
         }
     }
 }

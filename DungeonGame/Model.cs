@@ -15,6 +15,8 @@ namespace Dungeon
         public int Height { get; set; }
         public MapObjects.Player player;
         public MapObjects.Merchant merchant;
+        public MapObjects.Monster monster;
+        public List<MapObjects.Interactable> interactables = new List<MapObjects.Interactable>();
 
         public Model(System.Windows.Forms.Panel canvas, int width, int height)
         {
@@ -29,8 +31,13 @@ namespace Dungeon
             player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.POTION, "Paulchen das Ferkel"));
             player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.SWORD, "Peter das Schaefchen"));
             player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.ARMOR, "Eduard das Ferkel"));
-            merchant = new MapObjects.Merchant(ref board[1, height / 2], 100, this);
-            merchant.inventory.stuff.Add(new Inventory.Item(150, 120, Inventory.objecttype.ARMOR, "Schwert"));
+            Field f = determineSpawnPosition();
+            Field p = determineSpawnPosition();
+            merchant = new MapObjects.Merchant(ref f,100, this); //@todo merchant wird nicht gezeichnet
+            monster = new MapObjects.Monster(ref p, 100, this);
+            interactables.Add(merchant);
+            interactables.Add(player);
+            interactables.Add(monster);
         }
 
         public void drawMap()
@@ -46,8 +53,14 @@ namespace Dungeon
         {
             Field.adaptSize(Width, Height, canvas);
             drawMap();
-            player.draw();//Todo: alle mapobjects zeichnen
-        }
+            foreach(MapObjects.Interactable i in interactables)
+            {
+                i.draw();// @todo merchant fehlt???
+            }
+      /*      player.draw();//Todo: alle mapobjects zeichneni
+            merchant.draw();
+            monster.draw();
+        */}
 
         public void mapgen()
         {
@@ -135,6 +148,20 @@ namespace Dungeon
             }
             board[1, Height / 2].type = fieldtype.ENTRANCE;
 
+        }
+        private Field determineSpawnPosition()
+        {
+            Random rnd = new Random();
+            List<Field> availableFields = new List<Field>();
+            foreach(Field f in board)
+            {
+                if (f.type == fieldtype.EMPTY)
+                {
+                    availableFields.Add(f);
+                }
+            }
+            Field field = availableFields[rnd.Next(0, availableFields.Count)];
+            return field;
         }
     }
 }
