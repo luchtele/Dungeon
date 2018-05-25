@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI.cs" />
+    <Compile Include="Ant.cs" />
     <Compile Include="Creatures.cs" />
     <Compile Include="ExchangeWindow.cs">
       <SubType>Form</SubType>

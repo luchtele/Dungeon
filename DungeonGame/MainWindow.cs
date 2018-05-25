@@ -19,10 +19,13 @@ namespace View
         private void MainWindow2_Load(object sender, EventArgs e)
         {
             this.KeyPreview = true;
+            timer1.Interval = 500;
+            timer1.Start();
         }
 
         private void MainWindow2_KeyPress(object sender, KeyPressEventArgs e)
         {
+            
             if (e.KeyChar == 'w' || e.KeyChar == 'd' || e.KeyChar == 's' || e.KeyChar == 'a' || e.KeyChar == 'e')
             {
                 m.player.position.draw();
@@ -72,6 +75,16 @@ namespace View
         private void MainWindow_ResizeEnd(object sender, EventArgs e)
         {
             m.redrawAll();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            m.monster.position.draw();
+            m.merchant.position.draw();
+            m.merchant.move();
+            m.monster.move(m.player,m.board);//@todo alle monster moven
+            m.monster.draw();
+            m.merchant.draw();
         }
     }
 }

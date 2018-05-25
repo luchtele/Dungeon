@@ -1,0 +1,1 @@
+woodensword,toysword,brokensword,trainingsword,plasticsword,imaginarysword,unusablesword,needle,dagger,shortsword,sword,longsword,ax,hammer,knightssword,kingssword,greatsword,heavysword

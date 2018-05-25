@@ -59,7 +59,7 @@ namespace MapObjects
 
         public void move() //@todo unnötig?? stehender merchant?
         {
-            move(Misc.AI.determineDirection());
+            move(Misc.AI.randomDirection());
         }
     }
 
@@ -82,6 +82,20 @@ namespace MapObjects
         public override void interact(Interactable i)//@todo popup window für kampf
         {
             throw new NotImplementedException();
+        }
+
+        public void move(Player player, DrawEnvironment.Field[,] board)
+        {
+            int distance = Math.Abs(player.position.posx - position.posx) + Math.Abs(player.position.posy - position.posy); //Abstand monster+player
+            int maxDistance = 10;
+            if (distance <= maxDistance)
+            {
+                move(Misc.AI.follow(player, this, board));
+            }
+            else
+            {
+                move(Misc.AI.randomDirection());
+            }
         }
     }
 }

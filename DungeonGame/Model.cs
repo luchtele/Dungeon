@@ -151,7 +151,7 @@ namespace Dungeon
         }
         private Field determineSpawnPosition()
         {
-            Random rnd = new Random();
+            Random rnd = new Random(Guid.NewGuid().GetHashCode());
             List<Field> availableFields = new List<Field>();
             foreach(Field f in board)
             {

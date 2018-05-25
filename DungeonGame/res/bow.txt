@@ -1,0 +1,1 @@
+woodenbow,shortbow,bow,crossbow,goldenbow,longbow

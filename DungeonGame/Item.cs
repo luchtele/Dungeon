@@ -33,7 +33,7 @@ namespace Inventory
             this.Name = name;
         }
  
-        public Item(int o)
+        public Item(int o) //generiert random item
         {
             Random rnd = new Random(Guid.NewGuid().GetHashCode()); //damit seed random generiert wird-->nicht gleiche Zahlen bei erneutem aufruf props to stackoverflow
             string[] adjective;
@@ -42,10 +42,10 @@ namespace Inventory
             string[] armor;
             char[] sign = { ',' };
             string line = "";
-            StreamReader swords = new StreamReader("sword.txt");
-            StreamReader adjectives = new StreamReader("adjective.txt");
-            StreamReader bows = new StreamReader("bow.txt");
-            StreamReader armors= new StreamReader("armor.txt");
+            StreamReader swords = new StreamReader("../../res/sword.txt");// .. weil nicht in debugordner
+            StreamReader adjectives = new StreamReader("../../res/adjective.txt");
+            StreamReader bows = new StreamReader("../../res/bow.txt");
+            StreamReader armors= new StreamReader("../../res/armor.txt");
 
             adjectives.Peek();
             line = adjectives.ReadLine();

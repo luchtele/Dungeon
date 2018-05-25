@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.mainLayout = new System.Windows.Forms.TableLayoutPanel();
             this.canvas = new System.Windows.Forms.Panel();
             this.controlLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -35,6 +36,7 @@
             this.Stats = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Values = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.inventoryManager = new View.InventoryManager();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.mainLayout.SuspendLayout();
             this.controlLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statsView)).BeginInit();
@@ -114,14 +116,18 @@
             this.inventoryManager.Size = new System.Drawing.Size(336, 392);
             this.inventoryManager.TabIndex = 1;
             // 
-            // MainWindow2
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1391, 761);
             this.Controls.Add(this.mainLayout);
             this.MinimumSize = new System.Drawing.Size(800, 800);
-            this.Name = "MainWindow2";
+            this.Name = "MainWindow";
             this.Text = "DungeonGame";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainWindow2_Load);
@@ -144,5 +150,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Stats;
         private System.Windows.Forms.DataGridViewTextBoxColumn Values;
         private InventoryManager inventoryManager;
+        private System.Windows.Forms.Timer timer1;
     }
 }
