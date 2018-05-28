@@ -89,18 +89,14 @@ namespace MapObjects
             int distance = Math.Abs(player.position.posx - position.posx) + Math.Abs(player.position.posy - position.posy); //Abstand monster+player
             int maxDistance = 10;
 
-         //   while(this.position != player.position)
-           // {
                 if (distance <= maxDistance)
                 {
                     move(Misc.AI.follow(player, this, board));
                 }
-     /*           else
+               /* else
                 {
                     move(Misc.AI.randomDirection());
                 }*/
-            //}
-
         }
     }
 }

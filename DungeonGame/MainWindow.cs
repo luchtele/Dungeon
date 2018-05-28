@@ -20,7 +20,7 @@ namespace View
         {
             this.KeyPreview = true;
             timer1.Interval = 500;
-      //      timer1.Start();
+            timer1.Start();
         }
 
         private void MainWindow2_KeyPress(object sender, KeyPressEventArgs e)
@@ -52,7 +52,7 @@ namespace View
                     }
                     break;
                 case 'k':
-                    m.monster.move(m.player, m.board);
+                    // m.monster.move(m.player, m.board);
                     break;
             }
             m.player.draw();
