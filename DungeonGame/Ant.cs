@@ -22,7 +22,7 @@ namespace Misc
             this.firstDirection = firstDir;
             this.stepCounter = steps;
            
-            if (!checkDir(direction))
+            if (!checkDir(direction)) //raus?
             {
                 this.alive = false;
             }
@@ -43,6 +43,24 @@ namespace Misc
 
                 List<Ant> newAnts = new List<Ant>();
 
+                switch (direction)
+                {
+                    case 0:
+                        position = board[position.posx, position.posy - 1];
+                        break;
+                    case 1:
+                        position = board[position.posx + 1, position.posy];
+                        break;
+                    case 2:
+                        position = board[position.posx, position.posy + 1];
+                        break;
+                    case 3:
+                        position = board[position.posx - 1, position.posy];
+                        break;
+                    default:
+                        throw new InvalidOperationException(" Ant with invalid crawling direction: " + direction);
+                }
+                stepCounter++;
                 if (checkDirRelative(0) && checkDirRelative(1) && checkDirRelative(3)) // wenn vor dir rechts links frei
                 {
                     newAnts.Add(new Ant(position, turn(3), firstDirection, stepCounter));
@@ -83,24 +101,8 @@ namespace Misc
                     alive = false;
                 }
 
-                switch (direction)
-                {   
-                    case 0: 
-                       position = board[position.posx, position.posy - 1];
-                        break;
-                    case 1:
-                        position = board[position.posx + 1, position.posy];
-                        break;
-                    case 2:
-                        position = board[position.posx, position.posy + 1];
-                        break;
-                    case 3:
-                        position = board[position.posx - 1, position.posy];
-                        break;
-                    default:
-                        throw new InvalidOperationException(" Ant with invalid crawling direction: " + direction);
-                }
-                stepCounter++;
+              
+                
                 return newAnts;
             }
             else
@@ -118,31 +120,31 @@ namespace Misc
             switch (dir)
             {
                 case 0: //oben
-                    if (board[position.posx, position.posy - 1].type == DrawEnvironment.fieldtype.EMPTY)
+                    if (board[position.posx, position.posy - 1].type != DrawEnvironment.fieldtype.INDESTRUCTABLE && board[position.posx, position.posy - 1].type != DrawEnvironment.fieldtype.WALL)
                     {
                         return true;
                     }
                     break;
                 case 1: // rechts
-                    if (board[position.posx + 1, position.posy].type == DrawEnvironment.fieldtype.EMPTY)
+                    if (board[position.posx + 1, position.posy].type != DrawEnvironment.fieldtype.INDESTRUCTABLE && board[position.posx + 1, position.posy].type != DrawEnvironment.fieldtype.WALL)
                     {
                         return true;
                     }
                     break;
                 case 2: // unten
-                    if (board[position.posx, position.posy + 1].type == DrawEnvironment.fieldtype.EMPTY)
+                    if (board[position.posx, position.posy + 1].type != DrawEnvironment.fieldtype.INDESTRUCTABLE && board[position.posx, position.posy + 1].type != DrawEnvironment.fieldtype.WALL)
                     {
                         return true;
                     }
                     break;
                 case 3: // links
-                    if (board[position.posx - 1, position.posy].type == DrawEnvironment.fieldtype.EMPTY)
+                    if (board[position.posx - 1, position.posy].type != DrawEnvironment.fieldtype.INDESTRUCTABLE && board[position.posx - 1, position.posy].type != DrawEnvironment.fieldtype.WALL)
                     {
                         return true;
                     }
                     break;
                 default:
-                    throw new InvalidOperationException(" Ant with invalid digging direction: " + direction);
+                    throw new InvalidOperationException(" Ant with invalid crawling direction: " + direction);
             }
             return false;
         }

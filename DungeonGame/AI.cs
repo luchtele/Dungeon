@@ -25,10 +25,25 @@ namespace Misc
             List<Ant> newAnts= new List<Ant>();
             List<Ant> deadAnts = new List<Ant>();
 
-            ants.Add(new Ant(board[player.position.posx, player.position.posy], 0, 0, 0)); // Ant nach oben
-            ants.Add(new Ant(board[player.position.posx, player.position.posy], 1, 1, 0)); //Ant nach rechts
-            ants.Add(new Ant(board[player.position.posx, player.position.posy], 2, 2, 0)); //Ant nach unten
-            ants.Add(new Ant(board[player.position.posx, player.position.posy], 3, 3, 0)); //Ant nach links
+            if (board[monster.position.posx, monster.position.posy - 1].type == DrawEnvironment.fieldtype.EMPTY)
+            {
+                ants.Add(new Ant(board[monster.position.posx, monster.position.posy], 0, 0, 0)); // Ant nach oben
+            }
+
+            if (board[monster.position.posx + 1, monster.position.posy].type == DrawEnvironment.fieldtype.EMPTY)
+            {
+                ants.Add(new Ant(board[monster.position.posx, monster.position.posy], 1, 1, 0)); //Ant nach rechts
+            }
+
+            if (board[monster.position.posx, monster.position.posy + 1].type == DrawEnvironment.fieldtype.EMPTY)
+            {
+                ants.Add(new Ant(board[monster.position.posx, monster.position.posy], 2, 2, 0)); //Ant nach unten
+            }
+            
+            if (board[monster.position.posx - 1, monster.position.posy].type == DrawEnvironment.fieldtype.EMPTY)
+            {
+                ants.Add(new Ant(board[monster.position.posx, monster.position.posy], 3, 3, 0)); //Ant nach links
+            }
 
             while (!found)
             {
@@ -38,6 +53,7 @@ namespace Misc
                     {
                         direction = ant.firstDirection;
                         found = true;
+                        return direction;
                     }
                     if (!ant.alive)
                     {
