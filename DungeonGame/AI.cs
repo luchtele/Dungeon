@@ -22,8 +22,7 @@ namespace Misc
 
             Ant.setBoard(board);
             List<Ant> ants = new List<Ant>();
-            List<Ant> newAnts= new List<Ant>();
-            List<Ant> deadAnts = new List<Ant>();
+;
 
             if (board[monster.position.posx, monster.position.posy - 1].type == DrawEnvironment.fieldtype.EMPTY)
             {
@@ -44,24 +43,26 @@ namespace Misc
             {
                 ants.Add(new Ant(board[monster.position.posx, monster.position.posy], 3, 3, 0)); //Ant nach links
             }
-
-            while (!found)
+            
+            while (ants.Count != 0)
             {
+                List<Ant> newAnts= new List<Ant>();
+                List<Ant> deadAnts = new List<Ant>();
                 foreach(Ant ant in ants)
                 {
-                    if (ant.position == player.position)
-                    {
-                        direction = ant.firstDirection;
-                        found = true;
-                        return direction;
-                    }
+
                     if (!ant.alive)
                     {
                         deadAnts.Add(ant);
+                        continue;
                     }
-                    else
+
+                    newAnts.AddRange(ant.crawl());
+
+                    if (ant.position == player.position)
                     {
-                        newAnts.AddRange(ant.crawl());
+                        direction = ant.firstDirection;
+                        return direction;
                     }
                 }
                 foreach(Ant a in deadAnts)
