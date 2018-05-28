@@ -29,7 +29,7 @@ namespace View
             if (e.KeyChar == 'w' || e.KeyChar == 'd' || e.KeyChar == 's' || e.KeyChar == 'a' || e.KeyChar == 'e' || e.KeyChar == 'k')
             {
                 m.player.position.draw();
-                m.monster.position.draw();
+             //   m.monster.position.draw();
             }
             switch (e.KeyChar)
             {
@@ -56,7 +56,7 @@ namespace View
                     break;
             }
             m.player.draw();
-            m.monster.draw();
+           // m.monster.draw();
         }
 
         private void canvas_DoubleClick(object sender, EventArgs e)
