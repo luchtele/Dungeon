@@ -14,6 +14,7 @@ namespace Misc
         public DrawEnvironment.Field position;
         private int direction;
         public bool alive;
+        private int maxSteps = 10;
 
         public Ant(DrawEnvironment.Field pos, int direction, int firstDir, int steps)
         {
@@ -61,6 +62,12 @@ namespace Misc
                         throw new InvalidOperationException(" Ant with invalid crawling direction: " + direction);
                 }
                 stepCounter++;
+
+                if (stepCounter > maxSteps)
+                {
+                    alive = false;
+                    return newAnts;
+                }
                 if (checkDirRelative(0) && checkDirRelative(1) && checkDirRelative(3)) // wenn vor dir rechts links frei
                 {
                     newAnts.Add(new Ant(position, turn(3), firstDirection, stepCounter));
@@ -95,13 +102,6 @@ namespace Misc
                 {
                     alive = false;
                 }
-
-                if (stepCounter >= 10)
-                {
-                    alive = false;
-                }
-
-              
                 
                 return newAnts;
             }

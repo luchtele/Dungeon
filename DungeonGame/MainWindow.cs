@@ -29,7 +29,6 @@ namespace View
             if (e.KeyChar == 'w' || e.KeyChar == 'd' || e.KeyChar == 's' || e.KeyChar == 'a' || e.KeyChar == 'e' || e.KeyChar == 'k')
             {
                 m.player.position.draw();
-             //   m.monster.position.draw();
             }
             switch (e.KeyChar)
             {
@@ -48,15 +47,14 @@ namespace View
                 case 'e':
                     if(m.player.position == m.merchant.position)
                     {
+                        timer1.Stop();
                         m.merchant.interact(m.player);
                     }
                     break;
                 case 'k':
-                    // m.monster.move(m.player, m.board);
                     break;
             }
             m.player.draw();
-           // m.monster.draw();
         }
 
         private void canvas_DoubleClick(object sender, EventArgs e)
@@ -85,11 +83,11 @@ namespace View
         private void timer1_Tick(object sender, EventArgs e)
         {
             m.monster.position.draw();
-            //m.merchant.position.draw();
-          //  m.merchant.move();
+            m.merchant.position.draw();
+            m.merchant.move();
             m.monster.move(m.player,m.board);//@todo alle monster moven
             m.monster.draw();
-           // m.merchant.draw();
+            m.merchant.draw();
         }
     }
 }
