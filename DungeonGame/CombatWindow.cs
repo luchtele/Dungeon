@@ -8,13 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Inventory
+namespace View
 {
     public partial class CombatWindow : Form
     {
-        public CombatWindow()
+        Dungeon.Model m;
+        FormWindowState lastWindowState; //Dirty hack!!! stolen from: https://stackoverflow.com/questions/1295999/event-when-a-window-gets-maximized-un-maximized
+
+        public CombatWindow(MapObjects.Player player) 
         {
             InitializeComponent();
+            m = new Dungeon.Model(this.panel1, 30, 20, player);
+            DrawEnvironment.Field.adaptSize(m.Width, m.Height, this.panel1);
+            lastWindowState = WindowState;
         }
     }
 }

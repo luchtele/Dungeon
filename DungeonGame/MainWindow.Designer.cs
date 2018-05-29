@@ -128,7 +128,7 @@
             this.Controls.Add(this.mainLayout);
             this.MinimumSize = new System.Drawing.Size(800, 800);
             this.Name = "MainWindow";
-            this.Text = "DungeonGame";
+            this.Text = " ";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainWindow2_Load);
             this.ResizeEnd += new System.EventHandler(this.MainWindow_ResizeEnd);

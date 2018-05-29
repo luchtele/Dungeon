@@ -8,19 +8,19 @@ namespace View
         Dungeon.Model m;
         FormWindowState lastWindowState; //Dirty hack!!! stolen from: https://stackoverflow.com/questions/1295999/event-when-a-window-gets-maximized-un-maximized
         public MainWindow()
-{           InitializeComponent();
+        {   InitializeComponent();
             m = new Dungeon.Model(this.canvas, 30, 20);
             inventoryManager.Inventory = m.player.inventory;
             DrawEnvironment.Field.adaptSize(m.Width, m.Height, this.canvas);
             lastWindowState = WindowState;
             //new ExchangeWindow(m.player, m.merchant).Show();
+            new CombatWindow(m.player).Show();
         }
 
         private void MainWindow2_Load(object sender, EventArgs e)
         {
             this.KeyPreview = true;
             timer1.Interval = 500;
-            timer1.Start();
         }
 
         private void MainWindow2_KeyPress(object sender, KeyPressEventArgs e)
@@ -29,6 +29,10 @@ namespace View
             if (e.KeyChar == 'w' || e.KeyChar == 'd' || e.KeyChar == 's' || e.KeyChar == 'a' || e.KeyChar == 'e' || e.KeyChar == 'k')
             {
                 m.player.position.draw();
+                if(m.merchant.position == m.player.position)
+                {
+                    m.merchant.draw();
+                }
             }
             switch (e.KeyChar)
             {
@@ -52,6 +56,8 @@ namespace View
                     }
                     break;
                 case 'k':
+                    timer1.Start();
+                    m.redrawAll();
                     break;
             }
             m.player.draw();
@@ -61,6 +67,7 @@ namespace View
         {
             m.mapgen();
             m.redrawAll();
+            timer1.Start();
         }
 
         private void MainWindow_Resize(object sender, EventArgs e)
@@ -83,11 +90,15 @@ namespace View
         private void timer1_Tick(object sender, EventArgs e)
         {
             m.monster.position.draw();
-            m.merchant.position.draw();
-            m.merchant.move();
+            if (m.merchant.position == m.monster.position)
+            {
+                m.merchant.draw();
+            }
+        //    m.merchant.position.draw();
+          //  m.merchant.move();
             m.monster.move(m.player,m.board);//@todo alle monster moven
             m.monster.draw();
-            m.merchant.draw();
+           
         }
     }
 }

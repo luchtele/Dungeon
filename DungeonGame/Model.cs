@@ -10,13 +10,16 @@ namespace Dungeon
     public class Model
     {
         System.Windows.Forms.Panel canvas;
+        System.Windows.Forms.Panel canvas2;
         public Field [,] board;
+        public Field[,] combatBoard;
         public int Width { get; set; }
         public int Height { get; set; }
         public MapObjects.Player player;
         public MapObjects.Merchant merchant;
         public MapObjects.Monster monster;
         public List<MapObjects.Interactable> interactables = new List<MapObjects.Interactable>();
+        public List<MapObjects.Interactable> combatCreatures = new List<MapObjects.Interactable>();
 
         public Model(System.Windows.Forms.Panel canvas, int width, int height)
         {
@@ -40,7 +43,18 @@ namespace Dungeon
             interactables.Add(monster);
         }
 
-        public void drawMap()
+        public Model(System.Windows.Forms.Panel canvas, int width, int height, MapObjects.Player player)
+        {
+            this.canvas = canvas;
+            this.Width = width;
+            this.Height = height;
+            combatBoard = new Field[width, height];
+            Field.adaptSize(Width, Height, canvas);
+            combatMap();
+            combatCreatures.Add(player);
+        }
+
+        public void drawMap(Field [,] board)
         {
             canvas.Refresh();
             foreach (Field f in board)
@@ -52,7 +66,7 @@ namespace Dungeon
         public void redrawAll()
         {
             Field.adaptSize(Width, Height, canvas);
-            drawMap();
+            drawMap(board);
             foreach(MapObjects.Interactable i in interactables)
             {
                 i.draw();// @todo merchant fehlt???
@@ -162,6 +176,27 @@ namespace Dungeon
             }
             Field field = availableFields[rnd.Next(0, availableFields.Count)];
             return field;
+        }
+
+        public void combatMap()
+        {
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Height; j++)
+                {
+                    if ((i == 0) || (i == Width-1) || (j == 0) || (j == Height-1))
+                    {
+                        combatBoard[i, j] = new Field(i, j, canvas, fieldtype.INDESTRUCTABLE);
+                    }
+                    else
+                    {
+                        combatBoard[i, j] = new Field(i, j, canvas, fieldtype.EMPTY);
+                    }
+                    
+                }
+                    
+            }
+            drawMap(combatBoard);
         }
     }
 }

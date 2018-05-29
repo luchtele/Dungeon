@@ -1,4 +1,4 @@
-﻿namespace Inventory
+﻿namespace View
 {
     partial class CombatWindow
     {
@@ -28,13 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
+            // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(726, 607);
+            this.panel1.TabIndex = 0;
             // 
             // CombatWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(989, 602);
+            this.Controls.Add(this.panel1);
             this.Name = "CombatWindow";
             this.Text = "CombatWindow";
             this.ResumeLayout(false);
@@ -42,5 +51,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Panel panel1;
     }
 }
