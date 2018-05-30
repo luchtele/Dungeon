@@ -26,6 +26,64 @@ namespace MapObjects
         {
             throw new NotImplementedException();
         }
+
+            
+        public bool bow(List<Monster> monster)
+        {
+            foreach (Inventory.Item i in this.inventory.equipment)
+            {
+                if (i.type == Inventory.objecttype.BOW)
+                {
+                    foreach (Monster mo in monster)
+                    {
+                        int distance = Math.Abs(mo.position.posx - this.position.posx) + Math.Abs(mo.position.posy - this.position.posy);
+                        if (i.use(mo, distance))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool bomb(List<Monster> monster)
+        {
+            foreach (Inventory.Item i in this.inventory.equipment)
+            {
+                if (i.type == Inventory.objecttype.BOMB)
+                {
+                    foreach (Monster mo in monster)
+                    {
+                        int distance = Math.Abs(mo.position.posx - this.position.posx) + Math.Abs(mo.position.posy - this.position.posy);
+                        if (i.use(mo, distance))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool sword(List<Monster> monster)
+        {
+            foreach (Inventory.Item i in this.inventory.equipment)
+            {
+                if (i.type == Inventory.objecttype.SWORD)
+                {
+                    foreach (Monster mo in monster)
+                    {
+                        int distance = Math.Abs(mo.position.posx - this.position.posx) + Math.Abs(mo.position.posy - this.position.posy);
+                        if (i.use(mo, distance))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
     }
 
 
@@ -84,7 +142,7 @@ namespace MapObjects
             throw new NotImplementedException();
         }
 
-        public void move(Player player, DrawEnvironment.Field[,] board)
+        public void move(Player player, DrawEnvironment.Field[,] board) //@todo model.board statt extra board
         {
             int distance = Math.Abs(player.position.posx - position.posx) + Math.Abs(player.position.posy - position.posy); //Abstand monster+player
             int maxDistance = 10;
@@ -106,6 +164,18 @@ namespace MapObjects
                {
                     move(Misc.AI.randomDirection());
                }
+        }
+        public void combat(int distance, Player p)
+        {
+            if(distance == Inventory.Item.bombRange || distance == Inventory.Item.bowRange || distance == Inventory.Item.swordRange)
+            {
+                Misc.AI.combat(this, p);
+            }
+            else
+            {
+                move(Misc.AI.follow(p, this, model.board));
+            }
+            //AI
         }
     }
 }

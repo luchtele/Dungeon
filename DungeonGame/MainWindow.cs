@@ -89,15 +89,18 @@ namespace View
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            m.monster.position.draw();
-            if (m.merchant.position == m.monster.position)
+            foreach(MapObjects.Monster mo in m.monster)
             {
-                m.merchant.draw();
+                mo.position.draw();
+                if (m.merchant.position == mo.position)
+                {
+                    m.merchant.draw();
+                }
+                mo.move(m.player,m.board);//@todo alle monster moven
+                mo.draw();
             }
         //    m.merchant.position.draw();
           //  m.merchant.move();
-            m.monster.move(m.player,m.board);//@todo alle monster moven
-            m.monster.draw();
            
         }
     }

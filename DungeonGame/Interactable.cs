@@ -28,7 +28,7 @@ namespace MapObjects
     {
         protected string name;
         public int hp; // int level.....        
-        protected Dungeon.Model model;
+        public Dungeon.Model model; // protected
 
         public Creature(ref DrawEnvironment.Field field, Inventory.Inventory inventory, Color color, int hp, string name, Dungeon.Model m): base(ref field, inventory, color)
         {

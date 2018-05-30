@@ -74,5 +74,10 @@ namespace Misc
 
             return direction;
         }
+
+        public static void combat(MapObjects.Monster monster, MapObjects.Player player)
+        {
+            
+        }
     }
 }

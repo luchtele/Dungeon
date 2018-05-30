@@ -10,16 +10,14 @@ namespace Dungeon
     public class Model
     {
         System.Windows.Forms.Panel canvas;
-        System.Windows.Forms.Panel canvas2;
         public Field [,] board;
         public Field[,] combatBoard;
         public int Width { get; set; }
         public int Height { get; set; }
         public MapObjects.Player player;
         public MapObjects.Merchant merchant;
-        public MapObjects.Monster monster;
+        public List<MapObjects.Monster> monster = new List<MapObjects.Monster>();
         public List<MapObjects.Interactable> interactables = new List<MapObjects.Interactable>();
-        public List<MapObjects.Interactable> combatCreatures = new List<MapObjects.Interactable>();
 
         public Model(System.Windows.Forms.Panel canvas, int width, int height)
         {
@@ -37,21 +35,32 @@ namespace Dungeon
             Field f = determineSpawnPosition();
             Field p = determineSpawnPosition();
             merchant = new MapObjects.Merchant(ref f,100, this); //@todo merchant wird nicht gezeichnet
-            monster = new MapObjects.Monster(ref p, 100, this);
+            monster.Add(new MapObjects.Monster(ref p, 100, this));
             interactables.Add(merchant);
             interactables.Add(player);
-            interactables.Add(monster);
+            interactables.AddRange(monster);
         }
 
-        public Model(System.Windows.Forms.Panel canvas, int width, int height, ref MapObjects.Player player) // @todo really ref??
+        public Model(System.Windows.Forms.Panel canvas, int width, int height, MapObjects.Player p) // @todo really ref??
         {
+            Random rnd = new Random(Guid.NewGuid().GetHashCode());
+            int m = 1;
+            int hp = 100;
             this.canvas = canvas;
             this.Width = width;
             this.Height = height;
             board = new Field[width, height];
             Field.adaptSize(Width, Height, canvas);
             combatMap();
-            combatCreatures.Add(player);
+            this.player = p;
+            player.position = board[width/2,height/2];
+            player.model = this;
+            for(int i = 0; i < m; i++)
+            {
+                monster.Add(new MapObjects.Monster(ref board[rnd.Next(2, width - 2), rnd.Next(2, height - 2)], hp, this));
+            }
+            interactables.Add(player);
+            interactables.AddRange(monster);
         }
 
         public void drawMap()

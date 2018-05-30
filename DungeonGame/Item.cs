@@ -24,13 +24,21 @@ namespace Inventory
         public int actionvalue;
         public string Name { get; set; }
         public objecttype type;
-        
+        public int range;
+        public static int swordRange = 1;
+        public static int bowRange = 5;
+        public static int bombRange = 3;
+
         public Item(int value, int actionvalue, objecttype t, string name)
         {
             this.actionvalue = actionvalue;
             this.value = value;
             this.type = t;
             this.Name = name;
+            if (type == objecttype.BOMB)
+            {
+
+            }
         }
  
         public Item(int o) //generiert random item
@@ -171,9 +179,6 @@ namespace Inventory
 
         public bool use(MapObjects.Creature recipient, int distance)
         {
-            int swordRange = 1;
-            int bowRange = 5;
-            int bombRange = 3;
             switch (type)
             {
                 case objecttype.SWORD:
