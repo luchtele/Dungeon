@@ -43,18 +43,18 @@ namespace Dungeon
             interactables.Add(monster);
         }
 
-        public Model(System.Windows.Forms.Panel canvas, int width, int height, MapObjects.Player player)
+        public Model(System.Windows.Forms.Panel canvas, int width, int height, ref MapObjects.Player player) // @todo really ref??
         {
             this.canvas = canvas;
             this.Width = width;
             this.Height = height;
-            combatBoard = new Field[width, height];
+            board = new Field[width, height];
             Field.adaptSize(Width, Height, canvas);
             combatMap();
             combatCreatures.Add(player);
         }
 
-        public void drawMap(Field [,] board)
+        public void drawMap()
         {
             canvas.Refresh();
             foreach (Field f in board)
@@ -66,7 +66,7 @@ namespace Dungeon
         public void redrawAll()
         {
             Field.adaptSize(Width, Height, canvas);
-            drawMap(board);
+            drawMap();
             foreach(MapObjects.Interactable i in interactables)
             {
                 i.draw();// @todo merchant fehlt???
@@ -186,17 +186,16 @@ namespace Dungeon
                 {
                     if ((i == 0) || (i == Width-1) || (j == 0) || (j == Height-1))
                     {
-                        combatBoard[i, j] = new Field(i, j, canvas, fieldtype.INDESTRUCTABLE);
+                        board[i, j] = new Field(i, j, canvas, fieldtype.INDESTRUCTABLE); //combat board
                     }
                     else
                     {
-                        combatBoard[i, j] = new Field(i, j, canvas, fieldtype.EMPTY);
+                        board[i, j] = new Field(i, j, canvas, fieldtype.EMPTY); //comabtboard
                     }
                     
                 }
                     
             }
-            drawMap(combatBoard);
         }
     }
 }

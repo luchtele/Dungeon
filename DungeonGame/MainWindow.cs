@@ -14,7 +14,7 @@ namespace View
             DrawEnvironment.Field.adaptSize(m.Width, m.Height, this.canvas);
             lastWindowState = WindowState;
             //new ExchangeWindow(m.player, m.merchant).Show();
-            new CombatWindow(m.player).Show();
+            new CombatWindow(ref m.player).Show();
         }
 
         private void MainWindow2_Load(object sender, EventArgs e)
@@ -57,7 +57,7 @@ namespace View
                     break;
                 case 'k':
                     timer1.Start();
-                    m.redrawAll();
+                   // m.redrawAll();
                     break;
             }
             m.player.draw();

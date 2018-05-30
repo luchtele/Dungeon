@@ -168,6 +168,44 @@ namespace Inventory
                 return comparison.WORSE;
             return comparison.BETTER;
         }
+
+        public bool use(MapObjects.Creature recipient, int distance)
+        {
+            int swordRange = 1;
+            int bowRange = 5;
+            int bombRange = 3;
+            switch (type)
+            {
+                case objecttype.SWORD:
+                    if(distance == swordRange)
+                    {
+                        recipient.hp -= actionvalue;
+                        return true;
+                    }
+                    break;
+                case objecttype.BOW:
+                    if(distance == bowRange)
+                    {
+                        recipient.hp -= actionvalue;
+                        return true;
+                    }
+                    break;
+                case objecttype.BOMB:               //@todo range damage ??
+                    if (distance == bombRange)
+                    {
+                        recipient.hp -= actionvalue;
+                        return true;
+                    }
+                    break;
+                case objecttype.POTION:
+                    recipient.hp += actionvalue;
+                    return true;
+                case objecttype.ARMOR:
+                    recipient.hp += actionvalue;
+                    return true;
+            }
+            return false;
+        }
     }
     
 }

@@ -27,7 +27,7 @@ namespace MapObjects
     public abstract class Creature : Interactable
     {
         protected string name;
-        protected int hp; // int level.....        
+        public int hp; // int level.....        
         protected Dungeon.Model model;
 
         public Creature(ref DrawEnvironment.Field field, Inventory.Inventory inventory, Color color, int hp, string name, Dungeon.Model m): base(ref field, inventory, color)
