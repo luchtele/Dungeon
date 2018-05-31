@@ -28,10 +28,10 @@ namespace Dungeon
             Field.adaptSize(Width, Height, canvas);
             mapgen();
             player = new MapObjects.Player(ref board[1, height / 2],100, this);
-            player.inventory.equipment.Add(new Inventory.Item(100, 20, Inventory.objecttype.SWORD, "Timmie das Schaefchen"));
-            player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.POTION, "Paulchen das Ferkel"));
-            player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.SWORD, "Peter das Schaefchen"));
-            player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.ARMOR, "Eduard das Ferkel"));
+            player.inventory.equipment.Add(new Inventory.Item(100, 20, Inventory.objecttype.SWORD, "magic Sword"));
+            player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.POTION, "healing potion"));
+            player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.SWORD, "broken sword"));
+            player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.ARMOR, "rags"));
             Field f = determineSpawnPosition();
             Field p = determineSpawnPosition();
             merchant = new MapObjects.Merchant(ref f,100, this); //@todo merchant wird nicht gezeichnet
@@ -53,11 +53,11 @@ namespace Dungeon
             Field.adaptSize(Width, Height, canvas);
             combatMap();
             this.player = p;
-            player.position = board[width/2,height/2];
+            player.position = board[Width/2 -1, Height/2 -1];
             player.model = this;
             for(int i = 0; i < m; i++)
             {
-                monster.Add(new MapObjects.Monster(ref board[rnd.Next(2, width - 2), rnd.Next(2, height - 2)], hp, this));
+                monster.Add(new MapObjects.Monster(ref board[rnd.Next(2, width - 3), rnd.Next(2, height - 3)], hp, this));
             }
             interactables.Add(player);
             interactables.AddRange(monster);

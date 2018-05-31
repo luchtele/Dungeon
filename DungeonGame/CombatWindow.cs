@@ -27,17 +27,17 @@ namespace View
         private void CombatWindow_Load(object sender, EventArgs e)
         {
             this.KeyPreview = true;
-       //     timer1.Start();
+            timer1.Start();
             timer1.Interval = 500; 
         }
 
         private void CombatWindow_KeyPress(object sender, KeyPressEventArgs e)
         {
-            turn = 0; // nacher raus!!!!!!!!!!!!!!!!!!!!!!!!!
+           // turn = 0; // nacher raus!!!!!!!!!!!!!!!!!!!!!!!!!
             if (turn == 0)
             {
                 m.player.position.draw();
-                if(e.KeyChar == 'w' || e.KeyChar == 'd' || e.KeyChar == 's' || e.KeyChar == 'a' || e.KeyChar == 'e' || e.KeyChar == 'k' || e.KeyChar == 'b')
+                if(e.KeyChar == 'w' || e.KeyChar == 'd' || e.KeyChar == 's' || e.KeyChar == 'a' || e.KeyChar == 'e' || e.KeyChar == 'k' || e.KeyChar == 'b' || e.KeyChar == 'h')
                 {
                     switch (e.KeyChar)
                     {
@@ -58,21 +58,28 @@ namespace View
                             turn = 1;
                             break;
                         case 'k':
-                            if (m.player.sword(m.monster))
+                            if (m.player.attack(m.monster, Inventory.objecttype.SWORD))
                             {
                                 turn = 1;
                                 break;
                             }
                             break;
                         case 'e':
-                            if (m.player.bomb(m.monster))
+                            if (m.player.attack(m.monster, Inventory.objecttype.BOMB))
                             {
                                 turn = 1;
                                 break;
                             }
                             break;
                         case 'b':
-                            if (m.player.bow(m.monster))
+                            if (m.player.attack(m.monster, Inventory.objecttype.BOW))
+                            {
+                                turn = 1;
+                                break;
+                            }
+                            break;
+                        case 'h':
+                            if(m.player.heal())
                             {
                                 turn = 1;
                                 break;
@@ -83,6 +90,7 @@ namespace View
                 }
                 int hp = m.monster[0].hp;
                 m.player.draw();
+                m.monster[0].draw();
                 textBox1.Text = Convert.ToString(hp);
             }
         }
@@ -106,16 +114,18 @@ namespace View
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            int distance;
             if (turn == 1)
             {
                 foreach(MapObjects.Monster mo in m.monster)
                 {
-                    distance = Math.Abs(mo.position.posx - m.player.position.posx) + Math.Abs(mo.position.posy - m.player.position.posy);
-                    mo.combat(distance, m.player);
+                    mo.position.draw();
+                   
+                    mo.combat(m.player);
+                    mo.draw();
                 }
                 turn = 0;
             }
+            textBox2.Text = Convert.ToString(m.player.hp);
         }
     }
 }

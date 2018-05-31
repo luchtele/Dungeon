@@ -57,7 +57,7 @@ namespace View
                     break;
                 case 'k':
                     timer1.Start();
-                   // m.redrawAll();
+                    m.redrawAll();
                     break;
             }
             m.player.draw();

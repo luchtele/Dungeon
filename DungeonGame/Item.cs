@@ -182,7 +182,7 @@ namespace Inventory
             switch (type)
             {
                 case objecttype.SWORD:
-                    if(distance == swordRange)
+                    if(distance == 1)// swordRange)
                     {
                         recipient.hp -= actionvalue;
                         return true;

@@ -28,11 +28,11 @@ namespace MapObjects
         }
 
             
-        public bool bow(List<Monster> monster)
+        public bool attack(List<Monster> monster, Inventory.objecttype objecttype)
         {
             foreach (Inventory.Item i in this.inventory.equipment)
             {
-                if (i.type == Inventory.objecttype.BOW)
+                if (i.type == objecttype)
                 {
                     foreach (Monster mo in monster)
                     {
@@ -47,39 +47,15 @@ namespace MapObjects
             return false;
         }
 
-        public bool bomb(List<Monster> monster)
+        public bool heal()
         {
-            foreach (Inventory.Item i in this.inventory.equipment)
+            foreach(Inventory.Item i in this.inventory.equipment)
             {
-                if (i.type == Inventory.objecttype.BOMB)
+                if(i.type == Inventory.objecttype.POTION)
                 {
-                    foreach (Monster mo in monster)
-                    {
-                        int distance = Math.Abs(mo.position.posx - this.position.posx) + Math.Abs(mo.position.posy - this.position.posy);
-                        if (i.use(mo, distance))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-        public bool sword(List<Monster> monster)
-        {
-            foreach (Inventory.Item i in this.inventory.equipment)
-            {
-                if (i.type == Inventory.objecttype.SWORD)
-                {
-                    foreach (Monster mo in monster)
-                    {
-                        int distance = Math.Abs(mo.position.posx - this.position.posx) + Math.Abs(mo.position.posy - this.position.posy);
-                        if (i.use(mo, distance))
-                        {
-                            return true;
-                        }
-                    }
+                    i.use(this, 0);
+                    inventory.equipment.Remove(i);
+                    return true;
                 }
             }
             return false;
@@ -165,16 +141,34 @@ namespace MapObjects
                     move(Misc.AI.randomDirection());
                }
         }
-        public void combat(int distance, Player p)
+        public void combat(Player p)
         {
-            if(distance == Inventory.Item.bombRange || distance == Inventory.Item.bowRange || distance == Inventory.Item.swordRange)
+            int distance = Math.Abs(this.position.posx - p.position.posx) + Math.Abs(this.position.posy - p.position.posy);
+            foreach (Inventory.Item i in inventory.equipment)
             {
-                Misc.AI.combat(this, p);
+                if(i.type != Inventory.objecttype.POTION && i.type != Inventory.objecttype.ARMOR)
+                {
+                    if (i.use(p, distance))
+                    {
+                        break;
+                    }
+                }
+                else if (i.use(this, 0))
+                {
+                    inventory.equipment.Remove(i);
+                    break;
+                }
+                
             }
-            else
+            if(distance> Inventory.Item.bowRange)
             {
                 move(Misc.AI.follow(p, this, model.board));
             }
+            else
+            {
+                move(Misc.AI.randomDirection());
+            }
+            
             //AI
         }
     }

@@ -30,7 +30,7 @@ namespace Inventory
         }
         public Inventory()
         {
-            Random rnd = new Random();
+            Random rnd = new Random(Guid.NewGuid().GetHashCode());
 
             this.money = rnd.Next(10,1000);
             stuff = new BindingList<Item>();
@@ -38,10 +38,12 @@ namespace Inventory
             Item m;
             for(int i = 0; i <= length; i++)
             {
-                int o = rnd.Next(0, 4);
+                int o = rnd.Next(0, 5);
                 m = new Item(o);
                 stuff.Add(m);
+                equip(m);
             }
+
         }
         protected virtual void OnMoneyChanged(EventArgs e)
         {
