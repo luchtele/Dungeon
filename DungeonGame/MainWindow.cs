@@ -5,7 +5,7 @@ namespace View
 {
     public partial class MainWindow : Form
     {
-        Dungeon.Model m;
+        public Dungeon.Model m;
         FormWindowState lastWindowState; //Dirty hack!!! stolen from: https://stackoverflow.com/questions/1295999/event-when-a-window-gets-maximized-un-maximized
         public MainWindow()
         {   InitializeComponent();

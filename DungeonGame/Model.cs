@@ -45,7 +45,7 @@ namespace Dungeon
         {
             Random rnd = new Random(Guid.NewGuid().GetHashCode());
             int m = 1;
-            int hp = 100;
+            int hp = 10;
             this.canvas = canvas;
             this.Width = width;
             this.Height = height;
@@ -205,6 +205,18 @@ namespace Dungeon
                 }
                     
             }
+        }
+
+        public MapObjects.Creature checkForDead()
+        {
+            foreach (MapObjects.Creature i in interactables)
+            {
+                if (i.hp <= 0)
+                {
+                    return i;
+                }
+            }
+            return null;
         }
     }
 }

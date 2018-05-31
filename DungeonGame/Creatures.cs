@@ -144,7 +144,7 @@ namespace MapObjects
         public void combat(Player p)
         {
             int distance = Math.Abs(this.position.posx - p.position.posx) + Math.Abs(this.position.posy - p.position.posy);
-            foreach (Inventory.Item i in inventory.equipment)
+          /*  foreach (Inventory.Item i in inventory.equipment)
             {
                 if(i.type != Inventory.objecttype.POTION && i.type != Inventory.objecttype.ARMOR)
                 {
@@ -159,7 +159,7 @@ namespace MapObjects
                     break;
                 }
                 
-            }
+            }*/
             if(distance> Inventory.Item.bowRange)
             {
                 move(Misc.AI.follow(p, this, model.board));

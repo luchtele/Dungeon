@@ -15,10 +15,12 @@ namespace View
         Dungeon.Model m;
         FormWindowState lastWindowState; //Dirty hack!!! stolen from: https://stackoverflow.com/questions/1295999/event-when-a-window-gets-maximized-un-maximized
         int turn = 0;
+        MapObjects.Player oldPlayer;
        
         public CombatWindow(ref MapObjects.Player player) 
         {
             InitializeComponent();
+            oldPlayer = player;
             this.m = new Dungeon.Model(this.panel1, 20, 10, player);
             DrawEnvironment.Field.adaptSize(m.Width, m.Height, this.panel1);
             lastWindowState = WindowState;
@@ -90,8 +92,10 @@ namespace View
                 }
                 int hp = m.monster[0].hp;
                 m.player.draw();
+                checkForWinner();
                 m.monster[0].draw();
                 textBox1.Text = Convert.ToString(hp);
+;
             }
         }
 
@@ -121,11 +125,34 @@ namespace View
                     mo.position.draw();
                    
                     mo.combat(m.player);
+                    checkForWinner();
                     mo.draw();
                 }
                 turn = 0;
             }
             textBox2.Text = Convert.ToString(m.player.hp);
+        }
+
+        private void checkForWinner()
+        {
+            if(m.checkForDead()!= null)
+            {
+                if (m.checkForDead().GetType() == typeof(MapObjects.Player))
+                {
+                    turn = 2;
+                    MessageBox.Show("You lost!");
+                    Application.ExitThread();
+                }
+                else if(m.checkForDead().GetType() == typeof(MapObjects.Monster))
+                {
+                    turn = 2;
+                    m.player.model = oldPlayer.model;
+                    m.player.position = oldPlayer.position;
+                    // MessageBox.Show("you won");
+                    this.Close();
+                    
+                }
+            }
         }
     }
 }
