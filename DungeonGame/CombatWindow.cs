@@ -15,13 +15,11 @@ namespace View
         Dungeon.Model m;
         FormWindowState lastWindowState; //Dirty hack!!! stolen from: https://stackoverflow.com/questions/1295999/event-when-a-window-gets-maximized-un-maximized
         int turn = 0;
-        MapObjects.Player oldPlayer;
        
-        public CombatWindow(ref MapObjects.Player player) 
+        public CombatWindow(MapObjects.Player p) 
         {
             InitializeComponent();
-            oldPlayer = player;
-            this.m = new Dungeon.Model(this.panel1, 20, 10, player);
+            this.m = new Dungeon.Model(this.panel1, 20, 10, p);
             DrawEnvironment.Field.adaptSize(m.Width, m.Height, this.panel1);
             lastWindowState = WindowState;
         }
@@ -29,8 +27,9 @@ namespace View
         private void CombatWindow_Load(object sender, EventArgs e)
         {
             this.KeyPreview = true;
-            timer1.Start();
             timer1.Interval = 500; 
+            timer1.Start();
+            
         }
 
         private void CombatWindow_KeyPress(object sender, KeyPressEventArgs e)
@@ -92,10 +91,9 @@ namespace View
                 }
                 int hp = m.monster[0].hp;
                 m.player.draw();
-                checkForWinner();
                 m.monster[0].draw();
                 textBox1.Text = Convert.ToString(hp);
-;
+                checkForWinner();
             }
         }
 
@@ -123,10 +121,9 @@ namespace View
                 foreach(MapObjects.Monster mo in m.monster)
                 {
                     mo.position.draw();
-                   
                     mo.combat(m.player);
-                    checkForWinner();
                     mo.draw();
+                    checkForWinner();
                 }
                 turn = 0;
             }
@@ -146,8 +143,6 @@ namespace View
                 else if(m.checkForDead().GetType() == typeof(MapObjects.Monster))
                 {
                     turn = 2;
-                    m.player.model = oldPlayer.model;
-                    m.player.position = oldPlayer.position;
                     // MessageBox.Show("you won");
                     this.Close();
                     

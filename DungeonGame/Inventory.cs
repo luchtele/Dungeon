@@ -15,7 +15,7 @@ namespace Inventory
             set
             {
                 this.money = value;
-                OnMoneyChanged(EventArgs.Empty);
+                OnMoneyChanged(EventArgs.Empty); //Event ist eingetreten
             }
         }
         public BindingList<Item> stuff;
@@ -45,7 +45,7 @@ namespace Inventory
             }
 
         }
-        protected virtual void OnMoneyChanged(EventArgs e)
+        protected virtual void OnMoneyChanged(EventArgs e) 
         {
             EventHandler handler = moneyChanged;
             if (handler != null)

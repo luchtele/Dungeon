@@ -18,6 +18,8 @@ namespace Dungeon
         public MapObjects.Merchant merchant;
         public List<MapObjects.Monster> monster = new List<MapObjects.Monster>();
         public List<MapObjects.Interactable> interactables = new List<MapObjects.Interactable>();
+        public EventHandler InteractableEncounter;
+        public System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
 
         public Model(System.Windows.Forms.Panel canvas, int width, int height)
         {
@@ -27,6 +29,7 @@ namespace Dungeon
             this.Height = height;
             Field.adaptSize(Width, Height, canvas);
             mapgen();
+            timer.Tick += Timer_Tick;
             player = new MapObjects.Player(ref board[1, height / 2],100, this);
             player.inventory.equipment.Add(new Inventory.Item(100, 20, Inventory.objecttype.SWORD, "magic Sword"));
             player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.POTION, "healing potion"));
@@ -39,6 +42,21 @@ namespace Dungeon
             interactables.Add(merchant);
             interactables.Add(player);
             interactables.AddRange(monster);
+            timer.Interval = 10;
+            timer.Enabled = true;
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            foreach (MapObjects.Interactable i in interactables)
+            {
+                if(player.position == i.position && i.GetType() != typeof(MapObjects.Player))
+                {
+                    OnMonsterEncounter(i);
+                    return;
+                }
+            }
+
         }
 
         public Model(System.Windows.Forms.Panel canvas, int width, int height, MapObjects.Player p) // @todo really ref??
@@ -52,9 +70,9 @@ namespace Dungeon
             board = new Field[width, height];
             Field.adaptSize(Width, Height, canvas);
             combatMap();
-            this.player = p;
-            player.position = board[Width/2 -1, Height/2 -1];
-            player.model = this;
+            this.player = new MapObjects.Player(ref board[Width / 2 - 1, Height / 2 - 1], p.hp, this);
+            player.inventory = p.inventory;
+
             for(int i = 0; i < m; i++)
             {
                 monster.Add(new MapObjects.Monster(ref board[rnd.Next(2, width - 3), rnd.Next(2, height - 3)], hp, this));
@@ -217,6 +235,15 @@ namespace Dungeon
                 }
             }
             return null;
+        }
+
+        protected virtual void OnMonsterEncounter(MapObjects.Interactable interactable)
+        {
+            EventHandler handler = InteractableEncounter;
+            if(handler != null)
+            {
+                handler(interactable, EventArgs.Empty);
+            }
         }
     }
 }

@@ -7,14 +7,16 @@ namespace View
     {
         public Dungeon.Model m;
         FormWindowState lastWindowState; //Dirty hack!!! stolen from: https://stackoverflow.com/questions/1295999/event-when-a-window-gets-maximized-un-maximized
+        private Form interactionWindow;
+
         public MainWindow()
         {   InitializeComponent();
             m = new Dungeon.Model(this.canvas, 30, 20);
             inventoryManager.Inventory = m.player.inventory;
             DrawEnvironment.Field.adaptSize(m.Width, m.Height, this.canvas);
             lastWindowState = WindowState;
-            //new ExchangeWindow(m.player, m.merchant).Show();
-            new CombatWindow(ref m.player).Show();
+            m.InteractableEncounter += interactableEncounter;
+
         }
 
         private void MainWindow2_Load(object sender, EventArgs e)
@@ -52,7 +54,9 @@ namespace View
                     if(m.player.position == m.merchant.position)
                     {
                         timer1.Stop();
-                        m.merchant.interact(m.player);
+                        interactionWindow = m.merchant.interact(m.player);
+                        interactionWindow.Show();
+                        interactionWindow.FormClosed += interactionForm_Close;
                     }
                     break;
                 case 'k':
@@ -102,6 +106,28 @@ namespace View
         //    m.merchant.position.draw();
           //  m.merchant.move();
            
+        }
+        private void interactionForm_Close(object sender, EventArgs e)
+        {
+            timer1.Start();
+            m.timer.Start();
+            m.redrawAll();
+
+        }
+
+        private void interactableEncounter(object sender, EventArgs e)
+        {
+            if (sender.GetType() == typeof(MapObjects.Monster))
+            {
+                MapObjects.Monster monster = (MapObjects.Monster)sender;
+                interactionWindow = monster.interact(m.player);
+                interactionWindow.Show();
+                m.timer.Stop();
+                timer1.Stop();
+                m.interactables.Remove(monster);
+                m.monster.Remove(monster);
+                interactionWindow.FormClosed += interactionForm_Close;
+            }
         }
     }
 }

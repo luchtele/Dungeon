@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace MapObjects
 {
@@ -22,9 +23,10 @@ namespace MapObjects
             b.Dispose();
         }
 
-        public override void interact(Interactable i)
+        public override Form interact(Interactable i)
         {
             throw new NotImplementedException();
+
         }
 
             
@@ -77,12 +79,12 @@ namespace MapObjects
             b.Dispose();
         }
 
-        public override void interact(Interactable p)
+        public override Form interact(Interactable p)
         {
             if(p.GetType() == typeof(Player))
             {
                 //typecast weil system == doof tradewindow erwartet player
-                new View.ExchangeWindow((Player)p, this).Show();
+                return new View.ExchangeWindow((Player)p, this);
             }
             else
             {
@@ -100,6 +102,7 @@ namespace MapObjects
 
     public class Monster : Creature
     {
+        
         public Monster(ref DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(ref field, new Inventory.Inventory(), Color.Crimson, hp, "Monster", m)
         {
 
@@ -113,9 +116,17 @@ namespace MapObjects
             b.Dispose();
         }
 
-        public override void interact(Interactable i)//@todo popup window für kampf
+        public override Form interact(Interactable i)//@todo popup window für kampf
         {
-            throw new NotImplementedException();
+            if (i.GetType() == typeof(Player))
+            {
+                return  new View.CombatWindow((Player)i);
+            }
+            else
+            {
+                throw new ArgumentException("Monster can only interact with player");
+            }
+           
         }
 
         public void move(Player player, DrawEnvironment.Field[,] board) //@todo model.board statt extra board

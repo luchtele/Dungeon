@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace MapObjects
 {
@@ -13,7 +14,7 @@ namespace MapObjects
         public Inventory.Inventory inventory;
         protected Color color;
 
-        public abstract void interact(Interactable i);
+        public abstract Form interact(Interactable i);
         public abstract void draw();
 
         public Interactable(ref DrawEnvironment.Field field, Inventory.Inventory inventory, Color color)
