@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DrawEnvironment;
+using System.Windows.Forms;
 
 namespace Dungeon
 {
@@ -16,6 +17,7 @@ namespace Dungeon
         public int Height { get; set; }
         public MapObjects.Player player;
         public MapObjects.Merchant merchant;
+        public MapObjects.Stash corps;
         public List<MapObjects.Monster> monster = new List<MapObjects.Monster>();
         public List<MapObjects.Interactable> interactables = new List<MapObjects.Interactable>();
         public EventHandler InteractableEncounter;
@@ -33,8 +35,10 @@ namespace Dungeon
             player = new MapObjects.Player(ref board[1, height / 2],100, this);
             player.inventory.equipment.Add(new Inventory.Item(100, 20, Inventory.objecttype.SWORD, "magic Sword"));
             player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.POTION, "healing potion"));
-            player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.SWORD, "broken sword"));
+            player.inventory.stuff.Add(new Inventory.Item(10, 20, Inventory.objecttype.BOW, "broken bow"));
+            player.inventory.equipment.Add(new Inventory.Item(20, 50, Inventory.objecttype.BOMB, "bomb"));
             player.inventory.equipment.Add(new Inventory.Item(10, 20, Inventory.objecttype.ARMOR, "rags"));
+            corps = new MapObjects.Stash(ref player.position, player.inventory, "corps");
             Field f = determineSpawnPosition();
             Field p = determineSpawnPosition();
             merchant = new MapObjects.Merchant(ref f,100, this); //@todo merchant wird nicht gezeichnet
@@ -50,11 +54,19 @@ namespace Dungeon
         {
             foreach (MapObjects.Interactable i in interactables)
             {
-                if(player.position == i.position && i.GetType() != typeof(MapObjects.Player))
+                if(player.position == i.position && i.GetType() == typeof(MapObjects.Monster)) //später ändern
                 {
+                    MapObjects.Monster mo = (MapObjects.Monster)i;
+                    corps = new MapObjects.Stash(ref mo.position, mo.inventory, "corps");          //@todo trade dialog stash player
+                    interactables.Add(corps);
                     OnMonsterEncounter(i);
                     return;
                 }
+            }
+
+            if (player.position.type == DrawEnvironment.fieldtype.EXIT && monster.Count() == 0) 
+            {
+                MessageBox.Show("You won!");
             }
 
         }
@@ -63,7 +75,7 @@ namespace Dungeon
         {
             Random rnd = new Random(Guid.NewGuid().GetHashCode());
             int m = 1;
-            int hp = 10;
+            int hp = 80;
             this.canvas = canvas;
             this.Width = width;
             this.Height = height;
@@ -235,6 +247,10 @@ namespace Dungeon
                 }
             }
             return null;
+        }
+
+        private void createCorps(object sender, EventArgs e)
+        {
         }
 
         protected virtual void OnMonsterEncounter(MapObjects.Interactable interactable)

@@ -10,7 +10,7 @@ namespace MapObjects
 {
     public class Player : Creature
     {
-        public Player(ref DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(ref field, new Inventory.Inventory(100), Color.DarkRed, hp, "Player", m)
+        public Player(ref DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(ref field, new Inventory.Inventory(100), Color.DarkGreen, hp, "Player", m)
         {            
         }
 
@@ -67,7 +67,7 @@ namespace MapObjects
 
     public class Merchant : Creature
     {
-        public Merchant(ref DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(ref field, new Inventory.Inventory(), Color.DarkOliveGreen, hp, "Merchant", m)
+        public Merchant(ref DrawEnvironment.Field field, int hp, Dungeon.Model m) : base(ref field, new Inventory.Inventory(), Color.DarkMagenta, hp, "Merchant", m)
         {
         }
         public override void draw()
@@ -155,7 +155,7 @@ namespace MapObjects
         public void combat(Player p)
         {
             int distance = Math.Abs(this.position.posx - p.position.posx) + Math.Abs(this.position.posy - p.position.posy);
-          /*  foreach (Inventory.Item i in inventory.equipment)
+            foreach (Inventory.Item i in inventory.equipment)
             {
                 if(i.type != Inventory.objecttype.POTION && i.type != Inventory.objecttype.ARMOR)
                 {
@@ -170,7 +170,7 @@ namespace MapObjects
                     break;
                 }
                 
-            }*/
+            }
             if(distance> Inventory.Item.bowRange)
             {
                 move(Misc.AI.follow(p, this, model.board));

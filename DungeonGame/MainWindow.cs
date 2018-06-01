@@ -8,7 +8,7 @@ namespace View
         public Dungeon.Model m;
         FormWindowState lastWindowState; //Dirty hack!!! stolen from: https://stackoverflow.com/questions/1295999/event-when-a-window-gets-maximized-un-maximized
         private Form interactionWindow;
-
+        private bool monsterDead = false;
         public MainWindow()
         {   InitializeComponent();
             m = new Dungeon.Model(this.canvas, 30, 20);
@@ -16,7 +16,6 @@ namespace View
             DrawEnvironment.Field.adaptSize(m.Width, m.Height, this.canvas);
             lastWindowState = WindowState;
             m.InteractableEncounter += interactableEncounter;
-
         }
 
         private void MainWindow2_Load(object sender, EventArgs e)
@@ -58,6 +57,13 @@ namespace View
                         interactionWindow.Show();
                         interactionWindow.FormClosed += interactionForm_Close;
                     }
+                    if(m.player.position == m.corps.position)
+                    {
+                        timer1.Stop();
+                        interactionWindow = m.corps.interact(m.player);
+                        interactionWindow.Show();
+                        interactionWindow.FormClosed += interactionForm_Close;
+                    }
                     break;
                 case 'k':
                     timer1.Start();
@@ -82,6 +88,7 @@ namespace View
                 if(WindowState == FormWindowState.Maximized || WindowState == FormWindowState.Normal)
                 {
                     m.redrawAll();
+                    timer1.Start();
                 }
             }
         }
@@ -89,6 +96,7 @@ namespace View
         private void MainWindow_ResizeEnd(object sender, EventArgs e)
         {
             m.redrawAll();
+            timer1.Start();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -100,7 +108,7 @@ namespace View
                 {
                     m.merchant.draw();
                 }
-                mo.move(m.player,m.board);//@todo alle monster moven
+                mo.move(m.player,m.board);
                 mo.draw();
             }
         //    m.merchant.position.draw();
@@ -112,7 +120,14 @@ namespace View
             timer1.Start();
             m.timer.Start();
             m.redrawAll();
-
+            if (monsterDead) // hässlich gehackt @todo später anders!!!!!!
+            {
+                foreach(Inventory.Item item in m.corps.inventory.equipment)
+                {
+                    m.player.inventory.stuff.Add(item);
+                }
+                monsterDead = false;
+            }
         }
 
         private void interactableEncounter(object sender, EventArgs e)
@@ -126,6 +141,7 @@ namespace View
                 timer1.Stop();
                 m.interactables.Remove(monster);
                 m.monster.Remove(monster);
+                monsterDead = true;
                 interactionWindow.FormClosed += interactionForm_Close;
             }
         }

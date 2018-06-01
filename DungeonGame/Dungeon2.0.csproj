@@ -82,6 +82,7 @@
     <Compile Include="MapMole.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="Stash.cs" />
     <Compile Include="TradeWindow.cs">
       <SubType>Form</SubType>
     </Compile>
