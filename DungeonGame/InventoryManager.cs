@@ -15,7 +15,7 @@ namespace View
         public InventoryManager()
         {
             InitializeComponent();
-            stuffListBox.Click += stuffListClick; // Handle Methode der Listbox delegate -> Platzhalter für viele Funktionena
+            stuffListBox.Click += stuffListClick; // Handle Methode der Listbox  -> Platzhalter für viele Funktionena
         }
         public ListBox StuffListBox
         {
@@ -51,7 +51,8 @@ namespace View
                 temp = (Item)stuffListBox.SelectedItem;
                 if(temp != null)
                 {
-                    if (!inventory.equip(temp)){
+                    if (!inventory.equip(temp))
+                    {
                         MessageBox.Show("Already equipped item of type " + temp.type);
                     }
                 }

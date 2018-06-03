@@ -16,7 +16,7 @@ namespace View
         BindingSource stuffSource = new BindingSource();
 
         //Füge neue property hinzu
-        [Description("Gibt an, ob das Equippment des Inventars angezeigt werden soll"), Category("Inventareinstellungen")]
+  //      [Description("Gibt an, ob das Equippment des Inventars angezeigt werden soll"), Category("Inventareinstellungen")]
         public bool ShowEquippment
         {
             get { return showEq; }
